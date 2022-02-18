@@ -47,7 +47,7 @@
                     preserveScroll: true,
                     preserveState: true,
                     onSuccess: () => (this.gameLoadLauncher = null),
-                    onError: () => (this.gameLoadLauncher = null),
+                    onError: () => (this.iframe = null),
                 })
             },
         },
