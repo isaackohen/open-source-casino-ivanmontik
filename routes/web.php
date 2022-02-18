@@ -21,15 +21,10 @@ use App\Http\Controllers\Games\ThirdpartyGamesController;
 
 Route::get('/', function () {
     return Inertia::render('Dashboard', [
-       'games' => \App\Models\GamelistPublic::where('type', 'slots')->where('demo', '1')->get()->take(18)
+         'providers' => \App\Models\Providers::get()
     ]);
 })->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-       'games' => \App\Models\GamelistPublic::where('type', 'slots')->where('demo', '1')->get()->take(18)
-    ]);
-})->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/play/{slug}/{currency}', [ThirdpartyGamesController::class, 'start'])->name('game.real.start');
 Route::middleware(['auth:sanctum', 'verified'])->get('/game/{slug}', [ThirdpartyGamesController::class, 'show'])->name('game.show');
