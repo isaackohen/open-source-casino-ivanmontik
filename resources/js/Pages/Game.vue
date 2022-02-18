@@ -17,7 +17,7 @@
                  <button v-if="$page.props.loggedUser" @click="playGame('USD')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100" :class="{ 'opacity-25': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
                     Play USD$
                 </button>
-                 <button @click="playGame('demo')" class="h-10 px-6 ml-4 text-gray-400 text-sm transition-colors duration-[100ms] ease border border-indigo-100 rounded-full hover:bg-indigo-100 hover:text-indigo-900" :class="{ 'opacity-50': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
+                 <button v-if="$page.props.demo === 1" @click="playGame('demo')" class="h-10 px-6 ml-4 text-gray-400 text-sm transition-colors duration-[100ms] ease border border-indigo-100 rounded-full hover:bg-indigo-100 hover:text-indigo-900" :class="{ 'opacity-50': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
                     Play DEMO
                 </button>
                 </div>  

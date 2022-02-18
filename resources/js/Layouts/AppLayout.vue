@@ -31,8 +31,8 @@
                             <div class="ml-3 relative">
                                 <jet-dropdown align="right" width="48">
                                     <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                        <span class="inline-flex">
+                                            <button type="button" class="inline-flex items-center h-8 px-4 text-indigo-700 bg-indigo-100 text-sm transition-colors duration-[200ms] ease border border-indigo-200 rounded-full hover:bg-indigo-500 hover:text-indigo-100 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition">
                                                 {{ $page.props.currentBalance }} {{ $page.props.user.currentCurrency }}
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -59,7 +59,7 @@
                                                     <div v-else class="block px-4 py-2 text-xs text-gray-400 opacity-80 hover:opacity-100">
                                                         {{ balance.currency_code }}
                                                     </div>
-                                                    <div class="text-sm right opacity-80 hover:opacity-100">{{ balance.balance }} <br><span class="text-xs">{{ balance.usd_value }}$</span></div>   
+                                                    <div class="text-sm right opacity-80 hover:opacity-100">{{ balance.balance }} <br><span class="text-xxs">worth {{ balance.usd_value }}$</span></div>   
                                             </div>
                                             </jet-dropdown-link>
 

@@ -18,6 +18,10 @@ module.exports = {
           'xs': '425px',
           ...defaultTheme.screens,
         },
+        fontSize: {
+          'xxs': '.65rem',
+          ...defaultTheme.fontSize,
+        },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],

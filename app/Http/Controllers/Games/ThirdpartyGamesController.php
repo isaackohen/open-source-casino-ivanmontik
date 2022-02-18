@@ -32,7 +32,10 @@ class ThirdpartyGamesController extends Controller
         $game_header = $selectGame->game_name;
         $game_provider = $selectGame->game_provider;
         $rtp = $selectGame->rtp;
-
+        $demo = null;
+        if($selectGame->demo === 1) {
+            $demo = 1;
+        }
 
     return Inertia::render('Game', [
             'success' => true,
@@ -40,6 +43,7 @@ class ThirdpartyGamesController extends Controller
             'game_slug' => $slug,
             'game_provider' => $game_provider,
             'rtp' => $rtp,
+            'demo' => $demo,
     ]);
     }
 
@@ -63,7 +67,7 @@ class ThirdpartyGamesController extends Controller
         $game_provider = $selectGame->game_provider;
         $rtp = $selectGame->rtp;
         $url = 'https://api.dk.games/v2/createSession?apikey=1ACBB472AE4F3A662DB9A67782DC951F&userid='.auth()->user()->id.'-'.auth()->user()->currentCurrency.'&mode='.$mode.'&game='.$slug;
-        $result = Http::get($url);
+        $result = Http::retry(3, 250)->get($url);
         $iframe = $result['url'];
 
 

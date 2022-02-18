@@ -12,20 +12,20 @@ use Spatie\QueryBuilder\QueryBuilder;
 Route::any('/callback/extGames/balance', [ThirdpartyGamesController::class, 'balance']);
 Route::any('/callback/extGames/bet', [ThirdpartyGamesController::class, 'result']);
 
-
-/*
-|--------------------------------------------------------------------------
-| Disabled API Routes
-|--------------------------------------------------------------------------
 Route::get('/gamelist', function (Request $request) {
 
 $gamelist = QueryBuilder::for(\App\Models\GamelistPublic::class)
-    ->allowedFilters('name')
-    ->paginate()
+    ->allowedFilters('name', 'type', 'game_provider')
+    ->paginate(50)
     ->appends(request()->query());
 
    return $gamelist;
 });
+/*
+|--------------------------------------------------------------------------
+| Disabled API Routes
+|--------------------------------------------------------------------------
+
 
 
 */
