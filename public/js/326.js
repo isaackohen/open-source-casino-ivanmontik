@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[326],{326:e=>{e.exports=JSON.parse('{"Hello :name":"Hallo :name","Log in":"Einloggen","Register":"Anmelden"}')}}]);
