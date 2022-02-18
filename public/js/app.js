@@ -22850,13 +22850,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "p-4 bg-gray-50 rounded-lg"
+  "class": "p-2 bg-gray-50 rounded-lg"
 };
 var _hoisted_2 = {
-  "class": "flex flex-wrap overflow-hidden pb-2 lg:-mx-2 xl:-mx-2"
+  "class": "flex flex-wrap overflow-hidden pb-2 lg:-mx-1 xl:-mx-1"
 };
 var _hoisted_3 = {
-  "class": "w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/5 xl:my-3 xl:px-2 xl:w-1/6"
+  "class": "w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
 };
 var _hoisted_4 = ["src"];
 var _hoisted_5 = {
@@ -22866,19 +22866,9 @@ var _hoisted_6 = {
   "class": "flex flex-wrap overflow-hidden pb-2 lg:-mx-2 xl:-mx-2"
 };
 var _hoisted_7 = {
-  "class": "w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/5 xl:my-3 xl:px-2 xl:w-1/6"
+  "class": "w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
 };
 var _hoisted_8 = ["src"];
-var _hoisted_9 = {
-  "class": "p-4 bg-gray-50 rounded-lg"
-};
-var _hoisted_10 = {
-  "class": "flex flex-wrap overflow-hidden pb-2 lg:-mx-2 xl:-mx-2"
-};
-var _hoisted_11 = {
-  "class": "w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/5 xl:my-3 xl:px-2 xl:w-1/6"
-};
-var _hoisted_12 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Tab = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Tab");
 
@@ -22904,7 +22894,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
               var selected = _ref.selected;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-                "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([selected ? 'inline-block py-4 px-4 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300' : 'inline-block py-4 px-4 text-md font-medium text-center text-gray-500 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300'])
+                "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([selected ? 'inline-block py-3 px-3 mb-1 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300' : 'inline-block py-3 px-3 mb-1 text-md font-medium text-center text-gray-500 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300'])
               }, " Slots ", 2
               /* CLASS */
               )];
@@ -22918,22 +22908,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref2) {
               var selected = _ref2.selected;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-                "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([selected ? 'inline-block py-4 px-4 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300' : 'inline-block py-4 px-4 text-md font-medium text-center text-gray-500 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300'])
+                "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([selected ? 'inline-block py-3 px-3 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300' : 'inline-block py-3 px-3 text-md font-medium text-center text-gray-500 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300'])
               }, " Live Casino ", 2
-              /* CLASS */
-              )];
-            }),
-            _: 1
-            /* STABLE */
-
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Tab, {
-            as: "template"
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref3) {
-              var selected = _ref3.selected;
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-                "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([selected ? 'inline-block py-4 px-4 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300' : 'inline-block py-4 px-4 text-md font-medium text-center text-gray-500 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300'])
-              }, " Random ", 2
               /* CLASS */
               )];
             }),
@@ -23024,54 +23000,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }, null, 8
                         /* PROPS */
                         , _hoisted_8)];
-                      }),
-                      _: 2
-                      /* DYNAMIC */
-
-                    }, 1032
-                    /* PROPS, DYNAMIC_SLOTS */
-                    , ["href"])])];
-                  }),
-                  _: 2
-                  /* DYNAMIC */
-
-                }, 1024
-                /* DYNAMIC_SLOTS */
-                );
-              }), 256
-              /* UNKEYED_FRAGMENT */
-              ))])])];
-            }),
-            _: 1
-            /* STABLE */
-
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TabPanel, null, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$page.props.games4, function (game) {
-                return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_TransitionRoot, {
-                  appear: "",
-                  show: true,
-                  as: "template",
-                  enter: "transform transition duration-[400ms] ease",
-                  "enter-from": "opacity-0 scale-50",
-                  "enter-to": "opacity-100 scale-100",
-                  leave: "transform duration-200 transition ease-in-out",
-                  "leave-from": "opacity-100 scale-100 ",
-                  "leave-to": "opacity-0 scale-95"
-                }, {
-                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_game_thumb, {
-                      href: _ctx.route('game.show', {
-                        slug: game.game_slug
-                      })
-                    }, {
-                      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-                          "class": "h-full w-full shadow-sm rounded-2xl scale-105 duration-[325ms] ease hover:scale-100",
-                          src: "https://dkimages.imgix.net/v2/image_sq_alt/".concat(game.game_provider, "/").concat(game.game_slug, ".png?auto=format,compress&sharp=10&q=90w=250&h=250")
-                        }, null, 8
-                        /* PROPS */
-                        , _hoisted_12)];
                       }),
                       _: 2
                       /* DYNAMIC */
@@ -25883,7 +25811,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = function ($event) {
           return _ctx.playGame('demo');
         }),
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["underline opacity-30 ease-[300ms] text-sm ml-2 pb-2 text-gray-600 hover:text-gray-900", {
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["h-10 px-6 ml-4 text-gray-400 text-sm transition-colors duration-[100ms] ease border border-indigo-100 rounded-full hover:bg-indigo-100 hover:text-indigo-900", {
           'opacity-50': _ctx.gameLoadLauncher.processing
         }]),
         disabled: _ctx.gameLoadLauncher.processing
