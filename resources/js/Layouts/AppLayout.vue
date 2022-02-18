@@ -66,11 +66,11 @@
                                         </form>
                                     </template>
 
-                                        <div class="border-t border-gray-100"></div>
+                                        <div class="border-t border-gray-100"></div> 
                                         <!-- Authentication -->
-                                        <form @submit.prevent="logout">
+                                        <form @submit.prevent="openWallet('open')">
                                             <jet-dropdown-link as="button">
-                                                Log Out
+                                                Wallet
                                             </jet-dropdown-link>
                                         </form>
 
@@ -244,6 +244,27 @@
                 </div>
             </nav>
 
+            <!-- Wallet Modal -->
+            <jet-confirmation-modal :show="walletModal" @close="walletModal = null">
+                <template #title>
+                    Wallet Modal
+                </template>
+
+                <template #content>
+                    Deposit methods come here.
+                </template>
+
+                <template #footer>
+                    <jet-secondary-button @click="walletModal = null">
+                        Close
+                    </jet-secondary-button>
+
+                    <jet-button class="ml-3">
+                        Support
+                    </jet-button>
+                </template>
+            </jet-confirmation-modal>
+
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
@@ -275,6 +296,13 @@
     import JetNavLink from '@/Jetstream/NavLink.vue'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
+    import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
+    import Modal from '@/Jetstream/Modal.vue'
+    import JetButton from '@/Jetstream/Button.vue'
+    import JetDangerButton from '@/Jetstream/DangerButton.vue'
+    import JetDialogModal from '@/Jetstream/DialogModal.vue'
+    import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+
 
     export default defineComponent({
         props: {
@@ -287,7 +315,13 @@
             JetBanner,
             JetDropdown,
             JetDropdownLink,
+            JetButton,
+            JetDangerButton,
+            JetDialogModal,
+            JetSecondaryButton,
+            JetConfirmationModal,
             JetNavLink,
+            Modal,
             JetResponsiveNavLink,
             Link,
         },
@@ -300,11 +334,15 @@
                 showingNavigationDropdown: false,
                 componentKey: 0,
                 currentBal: null,
+                walletModal: null,
                 currentBalFiat: null,
                 timer: 0
             }
         },
         methods: {
+            openWallet(status) {
+                this.walletModal = status
+            },
             reloadCurBalance() {
                 this.$inertia.reload({ only: ['currentBalance'] });
             },
