@@ -126,11 +126,6 @@
                 </div>
               </TransitionRoot>
             </template>
-
-                <button @click="loadGames('slots')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
-                    Load more
-                </button>
-
             <template v-for="game in games">
               <TransitionRoot
                 appear
@@ -167,6 +162,10 @@
                 </div>
               </TransitionRoot>
             </template>
+    <button @click="loadGames('slots')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
+                    Load more
+    </button>
+
           </div>
         </div>
       </TabPanel>
@@ -212,6 +211,9 @@
                 </div>
               </TransitionRoot>
             </template>
+        <button @click="loadGames('live')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
+                    Load more
+    </button>
           </div>
         </div>
       </TabPanel>
