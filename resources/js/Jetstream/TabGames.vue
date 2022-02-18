@@ -3,7 +3,7 @@
   <TabGroup>
     <TabList>
       <Tab v-slot="{ selected }" as="template">
-        <button
+        <button @click="resetGames('slots')"
           :class="[
             selected
               ? 'inline-block py-3 px-3 mb-1 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300'
@@ -14,7 +14,7 @@
         </button>
       </Tab>
       <Tab v-slot="{ selected }" as="template">
-        <button
+        <button @click="resetGames('live')"
           :class="[
             selected
               ? 'inline-block py-3 px-3 text-md font-medium text-center text-gray-900 rounded-t-lg border-b-2 border-blue-200 hover:text-gray-600 hover:border-gray-300'
@@ -54,6 +54,7 @@
               v-slot="{ active, selected }"
               v-for="person in people"
               :key="person.name"
+              @click="resetGames(currentTab)"
               :value="person"
               as="template"
             >
@@ -90,48 +91,12 @@
           <div
             class="flex flex-wrap overflow-hidden pb-2 lg:-mx-1 xl:-mx-1"
           >
-            <template v-for="game in $page.props.games2">
-              <TransitionRoot
-                appear
-                :show="true"
-                as="template"
-                enter="transform transition duration-[400ms] ease"
-                enter-from="opacity-0 scale-50"
-                enter-to="opacity-100 scale-100"
-                leave="transform duration-200 transition ease-in-out"
-                leave-from="opacity-100 scale-100 "
-                leave-to="opacity-0 scale-95"
-              >
-                <div
-                  class="w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
-                >
-                  <game-thumb
-                    :href="
-                      route('game.show', {
-                        slug: game.game_slug
-                      })
-                    "
-                  >
-                    <img
-                      class="h-full w-full shadow-sm rounded-2xl scale-105 duration-[325ms] ease hover:scale-100"
-                      :src="
-                        `https://dkimages.imgix.net/v2/image_sq_alt/${
-                          game.game_provider
-                        }/${
-                          game.game_slug
-                        }.png?auto=format,compress&sharp=10&q=90w=250&h=250`
-                      "
-                    />
-                  </game-thumb>
-                </div>
-              </TransitionRoot>
-            </template>
             <template v-for="game in games">
               <TransitionRoot
                 appear
                 :show="true"
                 as="template"
-                enter="transform transition duration-[400ms] ease"
+                enter="transform transition duration-[300ms] ease"
                 enter-from="opacity-0 scale-50"
                 enter-to="opacity-100 scale-100"
                 leave="transform duration-200 transition ease-in-out"
@@ -139,7 +104,7 @@
                 leave-to="opacity-0 scale-95"
               >
                 <div
-                  class="w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
+                  class="w-full overflow-hidden w-full px-1 my-2 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
                 >
                   <game-thumb
                     :href="
@@ -162,9 +127,7 @@
                 </div>
               </TransitionRoot>
             </template>
-    <button @click="loadGames('slots')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
-                    Load more
-    </button>
+
 
           </div>
         </div>
@@ -175,12 +138,12 @@
           <div
             class="flex flex-wrap overflow-hidden pb-2 lg:-mx-2 xl:-mx-2"
           >
-            <template v-for="game in $page.props.games3">
+            <template v-for="game in games">
               <TransitionRoot
                 appear
                 :show="true"
                 as="template"
-                enter="transform transition duration-[400ms] ease"
+                enter="transform transition duration-[300ms] ease"
                 enter-from="opacity-0 scale-50"
                 enter-to="opacity-100 scale-100"
                 leave="transform duration-200 transition ease-in-out"
@@ -211,12 +174,13 @@
                 </div>
               </TransitionRoot>
             </template>
-        <button @click="loadGames('live')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
-                    Load more
-    </button>
+
           </div>
         </div>
       </TabPanel>
+        <button @click="loadGames(this.currentTab)" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
+                    Load more {{ selectedPerson.value }}
+    </button>
     </TabPanels>
   </TabGroup>
 </template>
@@ -237,16 +201,19 @@ export default defineComponent({
     const isShowing = true;
 
     const people = [
-        { id: 1, name: 'All', amount: 10 },
-        { id: 2, name: 'Pragmatic Play', amount: 11 },
-        { id: 3, name: 'NetEnt', amount: 5 },
-        { id: 4, name: 'Evoplay', amount: 17 },
-        { id: 5, name: 'BGaming', amount: 2 },
+        { id: 1, name: 'All', amount: 10, value: ' ' },
+        { id: 2, name: 'Pragmatic Play', amount: 11, value: 'pragmatic' },
+        { id: 3, name: 'NetEnt', amount: 5, value: 'netent' },
+        { id: 4, name: 'Evoplay', amount: 17, value: 'evoplay' },
+        { id: 5, name: 'BGaming', amount: 2, vallue: 'bgaming' },
       ]
       const selectedPerson = ref(people[0])
+      const filterProvider = ref(people[0])
+
 
       return {
         people,
+        filterProvider,
         selectedPerson,
       }
   },
@@ -255,14 +222,25 @@ export default defineComponent({
                 currentPage: 1,
                 filterProvider: ' ',
                 games: [],
+                currentTab: 'slots',
                 list: []
             }
         },
+        created() {
+            this.loadGames('slots', ' ');
+        },
         methods: {
-        loadGames(filter) {
+        resetGames(type) {
+          this.currentPage = 1;
+          this.games = [];
+          this.currentTab = type;
+
+          this.loadGames(type);
+        },
+        loadGames(type) {
             const current = this.currentPage;
-            const provider = this.filterProvider;
-            fetch('/api/gamelist?page=' + current + '&filter[type]=' + filter + '&filter[game_provider]=' + provider)
+            const provider = this.selectedPerson.value;
+            fetch('/api/gamelist?page=' + current + '&filter[type]=' + type + '&filter[game_provider]=' + provider)
             .then(res => {return res.json()})
             .then(data => {
                 
