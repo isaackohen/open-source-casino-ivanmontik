@@ -28,6 +28,7 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
+
     /**
      * Defines the props that are shared by default.
      *
@@ -37,8 +38,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        if(auth()->user()) {
+            $auth = auth()->user();
+        } else {
+            $auth = null;
+        }
         return array_merge(parent::share($request), [
             'balances' => CurrenciesController::retrieve(),
+            'games2' => \App\Models\GamelistPublic::where('type', 'slots')->where('demo', '1')->get()->take(18),
+            'games3' => \App\Models\GamelistPublic::where('type', 'live')->where('demo', '0')->get()->take(18),
+            'games4' => \App\Models\GamelistPublic::all()->random(18),
+            'loggedUser' => $auth,
             'currentBalance' => CurrenciesController::currentBalance()
         ]);
     }
