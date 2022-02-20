@@ -27,6 +27,12 @@ Route::get('/', function () {
     ]);
 })->name('dashboard');
 
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard', [
+         'providers' => \App\Models\Providers::get()
+    ]);
+})->name('dashboard');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/play/{slug}/{currency}', [ThirdpartyGamesController::class, 'start'])->name('game.real.start');
 Route::middleware(['auth:sanctum', 'verified'])->get('/game/{slug}', [ThirdpartyGamesController::class, 'show'])->name('game.show');
