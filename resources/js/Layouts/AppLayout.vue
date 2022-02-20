@@ -106,6 +106,10 @@
                                                 Currency
                                             </jet-dropdown-link>
 
+                                            <jet-dropdown-link :href="route('admin.games.show')">
+                                                Games
+                                            </jet-dropdown-link>
+
                                             <div class="border-t border-gray-100"></div>
 
                                         </template>

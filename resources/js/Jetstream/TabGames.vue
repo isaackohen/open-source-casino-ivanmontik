@@ -95,7 +95,7 @@
     </Listbox>
   </div>
 </div>
-    <TabPanels class="mt-2 mb-4" v-if="games.length > 0">
+    <TabPanels class="mt-2 mb-4">
       <TabPanel>
         <div class="p-2 bg-gray-50 rounded-lg">
           <div
@@ -189,11 +189,57 @@
         </div>
       </TabPanel>
 
-      
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+      <TabPanel>
+        <div class="p-4 bg-gray-50 rounded-lg">
+          <div
+            class="flex flex-wrap overflow-hidden pb-2 lg:-mx-2 xl:-mx-2"
+          >
+            <template v-for="game in games">
+              <TransitionRoot
+                appear
+                :show="true"
+                as="template"
+                enter="transform transition duration-[300ms] ease"
+                enter-from="opacity-0 scale-50"
+                enter-to="opacity-100 scale-100"
+                leave="transform duration-200 transition ease-in-out"
+                leave-from="opacity-100 scale-100 "
+                leave-to="opacity-0 scale-95"
+              >
+                <div
+                  class="w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
+                >
+                  <game-thumb
+                    :href="
+                      route('game.show', {
+                        slug: game.game_slug
+                      })
+                    "
+                  > 
+                    <img
+                      class="h-full w-full shadow-sm rounded-2xl scale-105 duration-[325ms] ease hover:scale-100"
+                      :src="
+                        `https://dkimages.imgix.net/v2/image_sq_alt/${
+                          game.game_provider
+                        }/${
+                          game.game_slug
+                        }.png?auto=format,compress&sharp=10&q=90w=250&h=250`
+                      "
+                    />
+                  </game-thumb>
+                </div>
+              </TransitionRoot>
+            </template>
+
+          </div>
+        </div>
+      </TabPanel>
+
+
+      <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 overflow-hidden sm:rounded-lg text-center font-semibold text-gray-500">
 
-        <button @click="loadGames(this.currentTab)" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
+        <button v-if="games.length > 1" @click="loadGames(this.currentTab)" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
                     Load more {{ selectedPerson.value }}
                   </button>
     </div></div>

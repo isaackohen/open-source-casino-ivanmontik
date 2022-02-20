@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\Profile\CurrenciesController;
 use App\Http\Controllers\Games\ResourceController;
 use App\Http\Controllers\Games\ThirdpartyGamesController;
+use App\Http\Controllers\Games\GamesController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,3 +38,7 @@ Route::middleware(['auth:sanctum', 'verified'])->delete('/admin/currencies/destr
             ->name('admin.currencies.destroy');
 Route::middleware(['auth:sanctum', 'verified'])->put('/admin/currencies/update', [CurrenciesController::class, 'update'])
             ->name('admin.currencies.update');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/admin/games', [GamesController::class, 'index'])->name('admin.games.show');
+Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/update', [GamesController::class, 'updateGames'])->name('admin.games.update');
+Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/test', [GamesController::class, 'runTest'])->name('admin.games.test');

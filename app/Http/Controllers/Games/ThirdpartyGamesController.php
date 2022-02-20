@@ -54,23 +54,30 @@ class ThirdpartyGamesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
-    public function start($slug, $currency)
+    public static function start($slug, $cur)
     {
-        $cur = $currency;
         if($cur === 'demo') {
             $mode = 'demo';
         } else {
             $mode = 'real';
         }
+
+        if($cur !== 'test') {
         $selectGame = GamelistPublic::where('game_slug', $slug)->first();
         $game_header = $selectGame->game_name;
         $game_provider = $selectGame->game_provider;
         $rtp = $selectGame->rtp;
-        $url = 'https://api.dk.games/v2/createSession?apikey=1ACBB472AE4F3A662DB9A67782DC951F&userid='.auth()->user()->id.'-'.auth()->user()->currentCurrency.'&mode='.$mode.'&game='.$slug;
+        }
+        $apikey = config('settings.main_api_key');
+        $apihost = config('settings.api_server');
+
+        $url = 'https://'.$apihost.'/v2/createSession?apikey='.$apikey.'&userid='.auth()->user()->id.'-'.auth()->user()->currentCurrency.'&mode='.$mode.'&game='.$slug.'&nick='.auth()->user()->name;
+
         $result = Http::retry(3, 250)->get($url);
         $iframe = $result['url'];
-
-
+        if($cur === 'test') {
+            return response()->json(['url' => $iframe]);
+        }
         return Inertia::render('Game', [
                 'success' => true,
                 'game_header' => $game_header,

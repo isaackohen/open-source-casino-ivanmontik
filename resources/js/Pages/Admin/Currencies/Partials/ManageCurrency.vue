@@ -45,7 +45,7 @@
                             </jet-action-section>
 
 
-                <!-- Delete Token Confirmation Modal -->
+                <!-- Update Currency Modal -->
                 <jet-confirmation-modal :show="updateModal" @close="updateModal = null">
                     <template #title>
                         Update Currency
@@ -66,7 +66,7 @@
                     </template>
                 </jet-confirmation-modal>
 
-                <!-- Delete Token Confirmation Modal -->
+                <!-- Delete Currency Modal -->
                 <jet-confirmation-modal :show="currencyBeingDeleted" @close="currencyBeingDeleted = null">
                     <template #title>
                         Delete Currency
