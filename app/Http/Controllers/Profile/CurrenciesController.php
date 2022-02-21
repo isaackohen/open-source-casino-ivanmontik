@@ -49,7 +49,7 @@ class CurrenciesController extends Controller
         }
 
         } else {
-            $currentBalance = '0';
+            $wallet = '0';
         }
 
         return $wallet;

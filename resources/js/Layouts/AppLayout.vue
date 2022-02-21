@@ -20,21 +20,21 @@
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Casino Games
+                                    Casino
                                 </jet-nav-link>
 
 
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="flex items-center ml-6">
 
                             <!-- Currencies Dropdown -->
                             <div class="ml-3 relative" v-if="$page.props.loggedUser">
                                 <jet-dropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex">
-                                            <button type="button" class="inline-flex items-center h-8 px-4 text-indigo-700 bg-indigo-100 text-sm transition-colors duration-[200ms] ease border border-indigo-200 rounded-full hover:bg-indigo-500 hover:text-indigo-100 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition">
+                                            <button type="button" class="text-xs inline-flex items-center h-8 px-4 text-indigo-700 bg-indigo-100 sm:text-sm transition-colors duration-[200ms] ease border border-indigo-200 rounded-full hover:bg-indigo-500 hover:text-indigo-100 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition">
                                                 {{ $page.props.currentBalance }} {{ $page.props.user.currentCurrency }}
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -45,11 +45,7 @@
                                     </template>
 
                                     <template #content>
-                                        <!-- Account Management -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            {{ $page.props.user.currentCurrency }}
-                                        </div>
-
+                                    <!-- Display on dropdown all currencies -->
                                     <template v-for="balance in $page.props.balances" :key="componentKey">
                                         <form v-if="balance.hidden !== '1'" @submit.prevent="switchToCurrency(balance.currency_code)">
                                             <div class="border-t border-gray-100"></div>
@@ -69,16 +65,21 @@
                                     </template>
 
                                         <div class="border-t border-gray-100"></div> 
-                                        <!-- Authentication -->
+                                        <!-- Open Wallet Modal -->
                                         <form @submit.prevent="openWallet('open')">
                                             <jet-dropdown-link as="button">
-                                                Wallet
+                                                <div class="block px-4 py-2 text-xs text-gray-500">
+                                                    Wallet: Deposit & Withdraw
+                                                </div>
                                             </jet-dropdown-link>
                                         </form>
 
                                     </template>
                                 </jet-dropdown>
                             </div>
+                        </div>
+
+                        <div class="hidden sm:flex sm:items-center sm:ml-6">
 
                             <!-- Admin Dropdown -->
                             <div v-if="$page.props.loggedUser">
@@ -154,14 +155,9 @@
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <jet-dropdown-link as="button">
-                                                Log Out
-                                            </jet-dropdown-link>
-                                        </form>
-
-                                        <!-- Authentication -->
-                                        <form @submit.prevent="openLogin(true)">
-                                            <jet-dropdown-link as="button">
-                                                Login Modal
+                                                <div class="block px-4 py-2 text-xs text-gray-500">
+                                                    Log Out
+                                                </div>
                                             </jet-dropdown-link>
                                         </form>
 
@@ -194,7 +190,7 @@
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                            Casino Games
+                            Casino
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link v-if="!$page.props.loggedUser" @click="loginRoute()">
                             Login
@@ -438,10 +434,6 @@
                     'selectedCurrency': currency
                 })
             },
-            openLogin(state) {
-                this.loginModal = state;
-            },
-
             logout() {
                 this.$inertia.post(route('logout'));
             },
