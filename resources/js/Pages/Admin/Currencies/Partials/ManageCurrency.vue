@@ -15,7 +15,9 @@
                                     <div class="space-y-6">
                                         <div class="flex items-center justify-between" v-for="currency in currencies" :key="currency.id">
                                             <div>
-                                                {{ currency.name }} 
+                                                {{ currency.name }}<br>
+                                                <span class="text-xs text-gray-400">Forwarding towards:<br>
+                                                {{ currency.end_wallet }}</span>
                                                 <button v-if="currency.hidden === 0" class="cursor-pointer ml-1 text-xs text-gray-400 underline" @click="confirmUpdatingCurrency('hide', currency.id)">
                                                     Hide
                                                 </button>
@@ -26,8 +28,8 @@
 
                                             <div class="flex items-center">
                                                 <div class="text-sm text-gray-400" v-if="currency.updated_at">
-                                                    Exchange Rate: {{ currency.usd_price }}$ USD<br>
-                                                    <small>Last price update {{ currency.updated_at }}</small>
+                                                    Currency Value: {{ currency.usd_price }}$ USD<br>
+                                                    <small>Updated {{ currency.updated_at }}</small>
                                                 </div>
 
                                                 <button class="cursor-pointer ml-6 text-sm text-gray-400 underline">

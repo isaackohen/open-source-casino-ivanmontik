@@ -15,7 +15,7 @@
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <jet-label for="code" value="Currency Code" />
+                <jet-label for="code" value="Currency Code - used in deposit method" />
                 <jet-input id="code" type="text" class="mt-1 block w-full" v-model="form.code" ref="code" autocomplete="code" />
                 <jet-input-error :message="form.errors.code" class="mt-2" />
             </div>
@@ -27,34 +27,37 @@
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <jet-label for="payment_method" value="Deposit Method" />
-                <jet-input id="payment_method" type="text" class="mt-1 block w-full" v-model="form.payment_method" ref="payment_method" autocomplete="payment_method" />
-                <jet-input-error :message="form.errors.payment_method" class="mt-2" />
+                <jet-label for="end_wallet" value="End Wallet" />
+                <jet-input id="end_wallet" type="text" class="mt-1 block w-full" v-model="form.end_wallet" ref="end_wallet" autocomplete="end_wallet" />
+                <jet-input-error :message="form.errors.end_wallet" class="mt-2" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <jet-label for="hidden" value="Hidden" />
-                <jet-input id="hidden" type="text" class="mt-1 block w-full" v-model="form.hidden" ref="hidden" autocomplete="hidden" />
-                <jet-input-error :message="form.errors.hidden" class="mt-2" />
+                <jet-label for="payment_method" value="Deposit Method" />
+            <select id="payment_method" v-model="form.payment_method" ref="payment_method" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" name="payment_method">
+                <optgroup label="Deposit Method">
+                <option value="cryptapi">
+                    cryptapi
+                </option>
+            </optgroup>
+            </select>
+
             </div>
 
 
         <div class="col-span-6 sm:col-span-4">
-            <jet-label for="price_api" value="Price API" />
+            <jet-label for="price_api" value="Exchange Rate API - used in updating USD$ value for external games" />
             <select id="price_api" v-model="form.price_api" ref="price_api" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" name="price_api">
                 <optgroup label="Price API">
                 <option value="coingecko">
                     coingecko
-                </option>
-                <option value="cryptocompare">
-                    cryptocompare
                 </option>
             </optgroup>
             </select>
         </div>
 
         <div class="col-span-6 sm:col-span-4">
-            <jet-label for="price_api_id" value="Price API Currency Tag" />
+            <jet-label for="price_api_id" value="Exchange Rate Identifier" />
             <jet-input id="price_api_id" type="text" class="mt-1 block w-full" v-model="form.price_api_id" ref="price_api_id" autocomplete="price_api_id" />
             <jet-input-error :message="form.errors.price_api_id" class="mt-2" />
         </div>
@@ -97,8 +100,9 @@
                 form: this.$inertia.form({
                     code: '',
                     price_api: '',
-                    hidden: '',
                     payment_method: '',
+                    hidden: 0,
+                    end_wallet: '',
                     price_api: '',
                     price_api_id: '',
                     name: ''

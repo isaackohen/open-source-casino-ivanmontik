@@ -144,7 +144,7 @@ class CurrenciesController extends Controller
             }
 
         }
-        return [];
+        return;
     }
 
 
@@ -182,6 +182,7 @@ return Inertia::share(['address' => 'test']);
         Validator::make($request->all(), [
             'code' => ['required', 'min:2', 'max:10'],
             'name' => ['required', 'min:2', 'max:25'],
+            'end_wallet' => ['required'],
             'price_api' => ['required'],
             'price_api_id' => ['required'],
             'payment_method' => ['required'],
