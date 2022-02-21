@@ -120,10 +120,10 @@
             this.deleteGameModal = slug
         },
         deleteGame() {
-            this.deleteGameForm.put(route('admin.games.delete', { method: this.deleteGameModal }), {
+            this.deleteGameForm.put(route('admin.games.delete', { game: this.deleteGameModal }), {
                 preserveScroll: true,
                 preserveState: true,
-                onSuccess: () => (this.deleteGameModal = null),
+                onSuccess: () => (this.deleteGameModal = null, this.games = [], this.currentPage = 1, this.loadGames()),
             })
         },
         loadGames() {

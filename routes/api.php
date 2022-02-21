@@ -11,6 +11,16 @@ use \App\Models\Providers;
 Route::any('/callback/extGames/balance', [ThirdpartyGamesController::class, 'balance']);
 Route::any('/callback/extGames/bet', [ThirdpartyGamesController::class, 'result']);
 
+Route::get('/providers', function (Request $request) {
+
+$providers = QueryBuilder::for(Providers::class)
+    ->allowedFilters('name')
+    ->defaultSort('-index_rating')
+    ->paginate(81)
+    ->appends(request()->query());
+
+   return $providers;
+});
 
 Route::get('/gamelistAdmin', function (Request $request) {
 
@@ -34,15 +44,6 @@ $gamelist = QueryBuilder::for(GamelistPublic::class)
    return $gamelist;
 });
 
-Route::get('/providers', function (Request $request) {
-
-$gamelist = QueryBuilder::for(Providers::class)
-    ->allowedFilters('provider')
-    ->paginate(100)
-    ->appends(request()->query());
-
-   return $gamelist;
-});
 /*
 |--------------------------------------------------------------------------
 | Disabled API Routes

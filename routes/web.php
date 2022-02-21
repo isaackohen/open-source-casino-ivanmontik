@@ -48,3 +48,4 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/admin/currencies/update',
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin/games', [GamesController::class, 'index'])->name('admin.games.show');
 Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/update', [GamesController::class, 'updateGames'])->name('admin.games.update');
 Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/test', [GamesController::class, 'runTest'])->name('admin.games.test');
+Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/delete', [GamesController::class, 'delete'])->name('admin.games.delete');

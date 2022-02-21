@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use \App\Models\UserBalances;
+use \App\Models\Providers;
 use App\Http\Controllers\Profile\CurrenciesController;
 class HandleInertiaRequests extends Middleware
 {
@@ -45,6 +46,7 @@ class HandleInertiaRequests extends Middleware
         }
         return array_merge(parent::share($request), [
             'balances' => CurrenciesController::retrieve(),
+            'providers' => Providers::all(),
             'loggedUser' => $auth,
             'currentBalance' => CurrenciesController::currentBalance()
         ]);

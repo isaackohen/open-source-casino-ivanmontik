@@ -95,7 +95,7 @@ class GamesController extends Controller
                 }
             }
             if($request->method === 'balance') {
-                $start = \App\Http\Controllers\Games\ThirdpartyGamesController::start('pra-c-wolf-gold', 'real');
+                $start = \App\Http\Controllers\Games\ThirdpartyGamesController::start('pra-c-wolf-gold', 'test');
                 if($start) {
                 $success = 'API was able to do correct balance test.';
                 }
@@ -143,11 +143,12 @@ class GamesController extends Controller
      *
      * @return Response
      */
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
-        if ($request->has('id')) {
-            \App\Models\Currencies::find($request->input('id'))->delete();
-            return redirect()->back();
+        Log::warning($request);
+        if ($request->game) {
+            GamelistPublic::where('game_slug', $request->game)->delete();
+            return back();
         }
     }
 
