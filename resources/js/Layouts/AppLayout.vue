@@ -157,6 +157,14 @@
                                                 Log Out
                                             </jet-dropdown-link>
                                         </form>
+
+                                        <!-- Authentication -->
+                                        <form @submit.prevent="openLogin(true)">
+                                            <jet-dropdown-link as="button">
+                                                Login Modal
+                                            </jet-dropdown-link>
+                                        </form>
+
                                     </template>
                                 </jet-dropdown>
                             </div>
@@ -264,13 +272,41 @@
             </nav>
 
             <!-- Wallet Modal -->
-            <jet-confirmation-modal :show="walletModal" @close="walletModal = null">
+            <jet-confirmation-modal v-if="$page.props.loggedUser" :show="walletModal" @close="walletModal = null">
                 <template #title>
-                    Wallet Modal
+                    Wallet
                 </template>
 
                 <template #content>
-                    Deposit methods come here.
+                    <template v-for="balance in $page.props.balances" :key="componentKey">
+                        <form v-if="balance.hidden !== '1'" @submit.prevent="switchToCurrency(balance.currency_code)">
+                            <div class="border-t border-gray-100"></div>
+                            <jet-dropdown-link as="button">
+                                <div class="flex items-center w-full">
+                                    <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="block px-4 py-2 text-xs">
+                                        <span class="text-semibold">{{ balance.currency_code }}</span>
+                                    </div>
+                                    <div v-else class="block px-4 py-2 text-xs text-gray-400 opacity-80">
+                                        {{ balance.currency_code }}
+                                    </div>
+                                    <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="text-sm right opacity-100 hover:opacity-100">
+                                        <span v-if="$page.props.currentDepositWallet === null"><jet-button class="ml-3">Generate {{ balance.currency_code }} Address</jet-button></span>
+                                        <span v-else>
+                                                {{ $page.props.currentDepositWallet }}                    
+                                        <input type="hidden" id="copy-clipboard-wallet" :value="$page.props.currentDepositWallet">
+
+                                    </span>
+                                </div>
+                                    <div v-else class="text-sm right opacity-70 hover:opacity-100">view deposit address</div>   
+                            </div>
+                            </jet-dropdown-link>
+
+                        </form>
+                        <div class="mt-1 mb-4" v-if="$page.props.user.currentCurrency === balance.currency_code">
+                       <jet-secondary-button class="ml-4" v-if="!copied" @click="copyClipboard('#copy-clipboard-wallet')">Copy</jet-secondary-button>
+                        <jet-secondary-button class="ml-4" v-if="copied">Copied</jet-secondary-button> 
+                    </div>
+                    </template>
                 </template>
 
                 <template #footer>
@@ -321,6 +357,7 @@
     import JetDangerButton from '@/Jetstream/DangerButton.vue'
     import JetDialogModal from '@/Jetstream/DialogModal.vue'
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
+    import { ref } from 'vue'
 
 
     export default defineComponent({
@@ -353,17 +390,33 @@
                 showingNavigationDropdown: false,
                 componentKey: 0,
                 currentBal: null,
+                copied: null,
                 walletModal: null,
-                currentBalFiat: null,
                 timer: 0
             }
         },
         methods: {
+            copyClipboard(queryselector) {
+              let inputToCopy = document.querySelector(queryselector)
+              inputToCopy.setAttribute('type', 'text')
+              inputToCopy.select()
+
+              try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                this.copied = 'Copied wallet address.';
+              } catch (err) {
+                this.copied = null;
+              }
+              inputToCopy.setAttribute('type', 'hidden')
+              window.getSelection().removeAllRanges()
+            },
             openWallet(status) {
                 this.walletModal = status
+                this.$inertia.reload({ only: ['currentBalance', 'currentDepositWallet'] })
             },
             reloadCurBalance() {
-                this.$inertia.reload({ only: ['currentBalance'] });
+                this.$inertia.reload({ only: ['currentBalance', 'currentDepositWallet'] });
             },
             switchToTeam(team) {
                 this.$inertia.put(route('current-team.update'), {
@@ -372,11 +425,23 @@
                     preserveState: false
                 })
             },
+            generateWallet(currency) {
+                this.$inertia.post(route('currencies.generateWallet'), {
+                    'currency': currency
+                }, {
+                    preserveState: false
+                })
+            },
             switchToCurrency(currency) {
+                this.copied = null;
                 this.$inertia.put(route('user.data.selectedCurrency'), {
                     'selectedCurrency': currency
                 })
             },
+            openLogin(state) {
+                this.loginModal = state;
+            },
+
             logout() {
                 this.$inertia.post(route('logout'));
             },

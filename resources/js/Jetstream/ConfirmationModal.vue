@@ -13,7 +13,7 @@
                         <slot name="title"></slot>
                     </h3>
 
-                    <div class="mt-2">
+                    <div class="mt-2 text-sm text-gray-500">
                         <slot name="content"></slot>
                     </div>
                 </div>

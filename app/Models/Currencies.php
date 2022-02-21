@@ -21,7 +21,7 @@ class Currencies extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'code', 'name', 'usd_price', 'price_api', 'price_api_id', 'hidden', 'payment_method'
+        'id', 'code', 'name', 'usd_price', 'price_api', 'price_api_id', 'hidden', 'payment_method', 'end_wallet'
     ];
 
     public function UserBalances()

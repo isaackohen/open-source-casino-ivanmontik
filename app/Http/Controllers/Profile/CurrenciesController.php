@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use App\Models\UserBalances;
+use Illuminate\Support\Facades\Log;
 
 class CurrenciesController extends Controller
 {
@@ -31,6 +32,55 @@ class CurrenciesController extends Controller
 
         return number_format($currentBalance, 7, '.', '');
     }
+
+
+    public static function currentDepositWallet()
+    {
+        if(auth()->user()) {
+
+        $wallet = UserBalances::where('user_id', auth()->user()->id)->where('currency_code', auth()->user()->currentCurrency)->first()->wallet ?? null;
+        if($wallet === null) {
+
+        $getWallet = self::cryptapi(auth()->user()->currentCurrency, auth()->user()->id);
+        $insert = UserBalances::where('user_id', auth()->user()->id)->where('currency_code', auth()->user()->currentCurrency)->update(['wallet' => $getWallet]);
+
+        } else {
+        $returnWallet = $wallet;
+        }
+
+        } else {
+            $currentBalance = '0';
+        }
+
+        return $wallet;
+    }
+
+
+    public static function cryptapi($currency, $user_id) {
+            $url = config('settings.url');
+            $cryptapiSecret = config('settings.cryptapi_secret');
+            $secret = md5($user_id.'_'.$cryptapiSecret);
+            $address = \App\Models\Currencies::where('code', $currency)->first()->end_wallet;
+            $lowerCaseCurrency = strtolower($currency);
+
+            $query = array(
+              "callback" => $url.'/api/callback/cryptapi?secret='.$secret,
+              "address" => $address,
+              "pending" => "0",
+              "confirmations" => "1",
+              "post" => "0",
+              "priority" => "fast"
+            );
+
+            $url = "https://api.cryptapi.io/".$lowerCaseCurrency."/create?" . http_build_query($query);
+            $curl = curl_init();
+
+            $get = Http::get($url);
+              Log::warning($get);
+
+                return $get['address_in'];
+    }
+
     public function selectedCurrency(Request $request)
     {
             $findUser = \App\Models\User::where('id', $request->user()->getAuthIdentifier())->first();
@@ -71,6 +121,15 @@ class CurrenciesController extends Controller
         return back(303);
     }
 
+
+    public function cryptapiCallback(Request $request)
+    {
+        Log::notice($request);
+        
+        return [];
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -86,6 +145,15 @@ class CurrenciesController extends Controller
         return Inertia::render('Admin/Currencies/Show', ['currencies' => $data]);
     }
   
+
+    public function generateWallet(Request $request)
+    {
+
+return Inertia::share(['address' => 'test']);
+     
+   
+    }
+
     /**
      * Show the form for creating a new resource.
      *

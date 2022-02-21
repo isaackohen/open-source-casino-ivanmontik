@@ -1,6 +1,10 @@
 <template>
-    <Head title="Log in" />
-
+    <app-layout title="Login">
+        <template #header>
+            <h4 class="font-semibold text-xl text-gray-800 leading-tight">
+                Login
+            </h4>
+        </template>
     <jet-authentication-card>
         <template #logo>
             <jet-authentication-card-logo />
@@ -43,9 +47,11 @@
             </div>
         </form>
     </jet-authentication-card>
+        </app-layout>
 </template>
 
 <script>
+    import AppLayout from '@/Layouts/AppLayout.vue'
     import { defineComponent } from 'vue'
     import JetAuthenticationCard from '@/Jetstream/AuthenticationCard.vue'
     import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo.vue'
@@ -54,11 +60,11 @@
     import JetCheckbox from '@/Jetstream/Checkbox.vue'
     import JetLabel from '@/Jetstream/Label.vue'
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
-    import { Head, Link } from '@inertiajs/inertia-vue3';
+    import { Link } from '@inertiajs/inertia-vue3';
 
     export default defineComponent({
         components: {
-            Head,
+            AppLayout,
             JetAuthenticationCard,
             JetAuthenticationCardLogo,
             JetButton,

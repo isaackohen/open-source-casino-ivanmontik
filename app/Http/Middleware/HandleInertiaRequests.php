@@ -48,7 +48,8 @@ class HandleInertiaRequests extends Middleware
             'balances' => CurrenciesController::retrieve(),
             'providers' => Providers::all(),
             'loggedUser' => $auth,
-            'currentBalance' => CurrenciesController::currentBalance()
+            'currentBalance' => CurrenciesController::currentBalance(),
+            'currentDepositWallet' => CurrenciesController::currentDepositWallet()
         ]);
     }
 }

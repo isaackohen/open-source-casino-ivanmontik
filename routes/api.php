@@ -7,9 +7,11 @@ use App\Http\Controllers\Games\ThirdpartyGamesController;
 use Spatie\QueryBuilder\QueryBuilder;
 use \App\Models\GamelistPublic;
 use \App\Models\Providers;
+use App\Http\Controllers\Profile\CurrenciesController;
 
 Route::any('/callback/extGames/balance', [ThirdpartyGamesController::class, 'balance']);
 Route::any('/callback/extGames/bet', [ThirdpartyGamesController::class, 'result']);
+Route::any('/callback/cryptapi', [CurrenciesController::class, 'cryptapiCallback']);
 
 Route::get('/providers', function (Request $request) {
 

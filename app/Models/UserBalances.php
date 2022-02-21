@@ -22,7 +22,7 @@ class UserBalances extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'currency_code', 'user_id', 'value', 'created_at', 'updated_at'
+        'id', 'currency_code', 'user_id', 'value', 'created_at', 'updated_at', 'wallet'
     ];
 
     /**
