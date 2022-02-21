@@ -124,8 +124,26 @@ class CurrenciesController extends Controller
 
     public function cryptapiCallback(Request $request)
     {
+        $secret = $request->secret;
+        $address = $request->address_in;
+        $amount = $request->value_coin;
+        $netto = $request->value_forwarded_coin;
+        $txid = $request->txid_in;
+        $currency = $request->coin;
         Log::notice($request);
         
+        $findWalletInDb = UserBalances::where('wallet', $address)->where('currency_code', $currency)->first();
+
+        if($findWalletInDb) {
+            $cryptapiSecret = config('settings.cryptapi_secret');
+            $generatedSecret = md5($findWalletInDb->user_id.'_'.$cryptapiSecret);
+
+            if($secret === $generatedSecret) {
+                    $currentBalance = $findWalletInDb->value;
+                    $updateBetBalance = $findWalletInDb->update(['value' => floatval($currentBalance + $amount)]);
+            }
+
+        }
         return [];
     }
 
