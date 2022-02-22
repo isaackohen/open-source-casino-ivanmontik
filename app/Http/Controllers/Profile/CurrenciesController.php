@@ -30,7 +30,7 @@ class CurrenciesController extends Controller
             $currentBalance = '0';
         }
 
-        return number_format($currentBalance, 7, '.', '');
+        return number_format($currentBalance, 9, '.', '');
     }
 
 
@@ -104,10 +104,10 @@ class CurrenciesController extends Controller
                 $insert = UserBalances::insert(['currency_code' => $currency->code, 'user_id' => auth()->user()->id, 'value' => floatval('0')]);
                 $printUserBalance = UserBalances::where('user_id', auth()->user()->id)->first()->value;
             }
-            $balances[] = array('currency_code' => $currency->code, 'balance' => number_format($printUserBalance, 7, '.', ''), 'usd_value' => number_format(floatval($printUserBalance * $currency->usd_price), 2, '.', ''), 'hidden' => $currency->hidden);
+            $balances[] = array('currency_code' => $currency->code, 'balance' => number_format($printUserBalance, 9, '.', ''), 'usd_value' => number_format(floatval($printUserBalance * $currency->usd_price), 2, '.', ''), 'hidden' => $currency->hidden);
             } else {
 
-            $balances[] = array('currency_code' => $currency->code, 'balance' => number_format('0', 7, '.', ''), 'usd_value' => floatval('0' * $currency->usd_price), 'hidden' => $currency->hidden);
+            $balances[] = array('currency_code' => $currency->code, 'balance' => number_format('0', 9, '.', ''), 'usd_value' => floatval('0' * $currency->usd_price), 'hidden' => $currency->hidden);
             }
 
         }

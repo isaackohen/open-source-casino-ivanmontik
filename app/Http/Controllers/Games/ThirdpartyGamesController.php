@@ -132,7 +132,7 @@ class ThirdpartyGamesController extends Controller
             $selectCurrency = Currencies::where('code', $currencyCode)->first();
             $usdValue = floatval($newBalanceInt / $selectCurrency->usd_price);
 
-            return floatval(number_format($usdValue, 7, '.', '') / 100);
+            return floatval(number_format($usdValue, 9, '.', '') / 100);
     }
 
 
