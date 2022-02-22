@@ -103,12 +103,12 @@ class ThirdpartyGamesController extends Controller
             $selectCurrency = Currencies::where('code', $request->currency)->first();
             $printUserBalance = $selectUserBalance->value;
             $usdValue = floatval($printUserBalance * $selectCurrency->usd_price);
-            $centsValue = (int) $usdValue * 100;
+            $centsValue = number_format(($usdValue * 100), 0, '.', '');
 
             return response()->json([
                 'status' => 'ok',
                 'result' => ([
-                    'balance' =>  (int) $centsValue,
+                    'balance' =>  $centsValue,
                     'freegames' => (int) 0
                 ]),
                 'id' => 0,
@@ -123,7 +123,7 @@ class ThirdpartyGamesController extends Controller
             $printUserBalance = $selectUserBalance->value;
             $usdValue = floatval($printUserBalance * $selectCurrency->usd_price);
 
-            return (int) $usdValue * 100;
+            return number_format(($usdValue * 100), 0, '.', '');
     }
 
 
