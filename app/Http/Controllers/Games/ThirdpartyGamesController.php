@@ -181,7 +181,7 @@ class ThirdpartyGamesController extends Controller
             }
 
             $finalUsdBalance = self::balanceCheck($request->playerid, $currencyCode);
-            $insertGamesLog = GamesLog::insert(['user_id' => $request->playerid, 'new_balance' => self::newBalanceFloat($finalBalance, $currencyCode), 'usd_balance' => floatval(number_format(($finalUsdBalance / 100), 5, '.', '')), 'callback_log' => json_encode($request->all()), 'currency_code' => $currencyCode, 'bet' => $bet, 'win' => $win, 'game' => $request->gameid, 'round' => $request->roundid, 'created_at' => now(), 'updated_at' => now()]);
+            $insertGamesLog = GamesLog::insert(['user_id' => $request->playerid, 'new_balance' => self::newBalanceFloat($finalUsdBalance, $currencyCode), 'usd_balance' => floatval(number_format(($finalUsdBalance / 100), 5, '.', '')), 'callback_log' => json_encode($request->all()), 'currency_code' => $currencyCode, 'bet' => $bet, 'win' => $win, 'game' => $request->gameid, 'round' => $request->roundid, 'created_at' => now(), 'updated_at' => now()]);
 
 
             return response()->json([
