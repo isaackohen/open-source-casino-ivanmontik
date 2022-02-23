@@ -145,11 +145,11 @@ class ThirdpartyGamesController extends Controller
      */
     public function result(Request $request)
     {
-            $bet = (int) $request->bet;
-            $win = (int) $request->win;
+            $bet = $request->bet;
+            $win = $request->win;
             $currencyCode = $request->currency;
 
-            if($bet > 0)
+            if($bet > 0.00)
             {
             $balanceFirst = self::balanceCheck($request->playerid, $currencyCode);
 
@@ -172,12 +172,12 @@ class ThirdpartyGamesController extends Controller
                 }
             }
 
-            if($win > 0)
+            if($win > 0.00)
             {
                 $balanceSecond = self::balanceCheck($request->playerid, $request->currency);
-                $newBalance = ($balanceSecond + $win);
-                $newBalanceFloat = self::newBalanceFloat($newBalance, $currencyCode);
-                $updateWinBalance = UserBalances::where('user_id', $request->playerid)->where('currency_code', $currencyCode)->update(['value' => $newBalanceFloat]);
+                $newWinBalance = ($balanceSecond + $win);
+                $newWinBalanceFloat = self::newBalanceFloat($newWinBalance, $currencyCode);
+                $updateWinBalance = UserBalances::where('user_id', $request->playerid)->where('currency_code', $currencyCode)->update(['value' => $newWinBalanceFloat]);
             }
 
             $finalUsdBalance = self::balanceCheck($request->playerid, $currencyCode);
