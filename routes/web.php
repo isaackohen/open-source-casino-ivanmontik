@@ -23,15 +23,18 @@ use App\Http\Controllers\Games\GamesController;
 
 Route::get('/', function () {
     return Inertia::render('Dashboard', [
-         'providers' => \App\Models\Providers::get()
     ]);
-})->name('dashboard');
+})->name('casino');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
-         'providers' => \App\Models\Providers::get()
     ]);
 })->name('dashboard');
+
+Route::get('/poker', function () {
+    return Inertia::render('Dashboard', [
+    ]);
+})->name('poker');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/play/{slug}/{currency}', [ThirdpartyGamesController::class, 'start'])->name('game.real.start');

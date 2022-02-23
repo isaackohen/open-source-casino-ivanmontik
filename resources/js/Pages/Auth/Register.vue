@@ -1,5 +1,10 @@
 <template>
-    <Head title="Register" />
+    <app-layout title="Register">
+        <template #header>
+            <h4 class="font-semibold text-xl text-gray-800 leading-tight">
+                Register
+            </h4>
+        </template>
 
     <jet-authentication-card>
         <template #logo>
@@ -52,6 +57,8 @@
             </div>
         </form>
     </jet-authentication-card>
+    </app-layout>
+
 </template>
 
 <script>
@@ -64,10 +71,12 @@
     import JetLabel from '@/Jetstream/Label.vue'
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
+    import AppLayout from '@/Layouts/AppLayout.vue'
 
     export default defineComponent({
         components: {
             Head,
+            AppLayout,
             JetAuthenticationCard,
             JetAuthenticationCardLogo,
             JetButton,

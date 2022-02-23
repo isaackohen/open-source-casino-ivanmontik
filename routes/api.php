@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Games\ThirdpartyGamesController;
 use Spatie\QueryBuilder\QueryBuilder;
-use \App\Models\GamelistPublic;
+use \App\Models\Gamelist;
 use \App\Models\Providers;
 use App\Http\Controllers\Profile\CurrenciesController;
 
@@ -26,7 +26,7 @@ $providers = QueryBuilder::for(Providers::class)
 
 Route::get('/gamelistAdmin', function (Request $request) {
 
-$gamelist = QueryBuilder::for(GamelistPublic::class)
+$gamelist = QueryBuilder::for(Gamelist::class)
     ->allowedFilters('name', 'type', 'game_provider')
     ->defaultSort('-index_rating')
     ->paginate(50)
@@ -37,7 +37,7 @@ $gamelist = QueryBuilder::for(GamelistPublic::class)
 
 Route::get('/gamelist', function (Request $request) {
 
-$gamelist = QueryBuilder::for(GamelistPublic::class)
+$gamelist = QueryBuilder::for(Gamelist::class)
     ->allowedFilters('name', 'type', 'game_provider')
     ->defaultSort('-index_rating')
     ->paginate(18)

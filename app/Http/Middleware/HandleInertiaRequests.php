@@ -46,7 +46,6 @@ class HandleInertiaRequests extends Middleware
         }
         return array_merge(parent::share($request), [
             'balances' => CurrenciesController::retrieve(),
-            'providers' => Providers::all(),
             'loggedUser' => $auth,
             'currentBalance' => CurrenciesController::currentBalance(),
             'currentDepositWallet' => CurrenciesController::currentDepositWallet()

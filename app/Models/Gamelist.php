@@ -8,7 +8,7 @@ use Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class GamelistPublic extends Model
+class Gamelist extends Model
 {
     use HasFactory;
     

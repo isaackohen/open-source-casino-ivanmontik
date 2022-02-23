@@ -1,8 +1,8 @@
 <template>
     <app-layout title="Casino Games">
         <template #header>
-            <h4 class="font-semibold text-xl text-gray-800 leading-tight">
-                Casino
+            <h4 class="font-semibold text-subheader text-gray-800 tracking-wide">
+                Casino Games
             </h4>
         </template>
         <div>

@@ -8,7 +8,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 use Jenssegers\Agent\Agent;
 use Inertia\Inertia;
 use Laravel\Jetstream\Jetstream;
@@ -17,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use App\Models\UserBalances;
-use App\Models\GamelistPublic;
+use App\Models\Gamelist;
 
 class GamesController extends Controller
 {
@@ -35,7 +34,7 @@ class GamesController extends Controller
             abort(403);
         }
  
-        $gamesCount = GamelistPublic::count();
+        $gamesCount = Gamelist::count();
         $providerCount = \App\Models\Providers::count();
         $apikey = config('settings.main_api_key');
         return Inertia::render('Admin/Games/Show', ['gamescount' => $gamesCount, 'providerscount' => $providerCount, 'apikey' => $apikey]);
@@ -84,7 +83,7 @@ class GamesController extends Controller
             $selectFirstCurrency = \App\Models\Currencies::where('hidden', 0)->first();
 
             // Get random game from your list
-            $selectRandomGame = \App\Models\GamelistPublic::where('demo', 1)->get()->random(1)->first();
+            $selectRandomGame = \App\Models\Gamelist::where('demo', 1)->get()->random(1)->first();
             Log::warning($selectRandomGame);
 
             try {
@@ -123,13 +122,13 @@ class GamesController extends Controller
         $apihost = config('settings.api_server');
         $response = Http::get('https://'.$apihost.'/v2/listGames?apikey='.$apikey.'&framework=1');
         $arrayList = ['data' => $response->json()];
-        GamelistPublic::truncate();
+        Gamelist::truncate();
         foreach ($arrayList['data'] as $game) {
-            GamelistPublic::insert(['game_slug' => $game['id'], 'game_name' => $game['name'], 'game_desc' => $game['desc'], 'game_provider' => $game['provider'], 'demo' => $game['demo'], 'index_rating' => $game['index_rating'], 'disabled' => (int) $game['d'], 'freespins' => (int) $game['freespins'], 'bonusbuy' => $game['bonus'], 'type' => $game['category'], 'rtp' => (100 - $game['rtp']), 'hidden' => 0]);
+            Gamelist::insert(['game_slug' => $game['id'], 'game_name' => $game['name'], 'game_desc' => $game['desc'], 'game_provider' => $game['provider'], 'demo' => $game['demo'], 'index_rating' => $game['index_rating'], 'disabled' => (int) $game['d'], 'freespins' => (int) $game['freespins'], 'bonusbuy' => $game['bonus'], 'type' => $game['category'], 'rtp' => (100 - $game['rtp']), 'hidden' => 0]);
         }
         \Artisan::call('optimize:clear');
 
-        $count = GamelistPublic::count();
+        $count = Gamelist::count();
 
         return back()->with('flash', [
             'bannerStyle' => 'success',
@@ -147,7 +146,7 @@ class GamesController extends Controller
     {
         Log::warning($request);
         if ($request->game) {
-            GamelistPublic::where('game_slug', $request->game)->delete();
+            Gamelist::where('game_slug', $request->game)->delete();
             return back();
         }
     }

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\UserBalances;
 use App\Models\Currencies;
 use Inertia\Inertia;
-use App\Models\GamelistPublic;
+use App\Models\Gamelist;
 
 class ThirdpartyGamesController extends Controller
 {
@@ -28,7 +28,7 @@ class ThirdpartyGamesController extends Controller
      */
     public function show($slug)
     {
-        $selectGame = GamelistPublic::where('game_slug', $slug)->first();
+        $selectGame = Gamelist::where('game_slug', $slug)->first();
         $game_header = $selectGame->game_name;
         $game_provider = $selectGame->game_provider;
         $rtp = $selectGame->rtp;
@@ -63,7 +63,7 @@ class ThirdpartyGamesController extends Controller
         }
 
         if($cur !== 'test') {
-        $selectGame = GamelistPublic::where('game_slug', $slug)->first();
+        $selectGame = Gamelist::where('game_slug', $slug)->first();
         $game_header = $selectGame->game_name;
         $game_provider = $selectGame->game_provider;
         $rtp = $selectGame->rtp;

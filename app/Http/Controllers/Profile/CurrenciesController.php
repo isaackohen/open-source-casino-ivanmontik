@@ -16,6 +16,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use App\Models\UserBalances;
 use Illuminate\Support\Facades\Log;
+use App\Models\Currencies;
+use App\Models\PaymentLog;
 
 class CurrenciesController extends Controller
 {
@@ -60,7 +62,7 @@ class CurrenciesController extends Controller
             $url = config('settings.url');
             $cryptapiSecret = config('settings.cryptapi_secret');
             $secret = md5($user_id.'_'.$cryptapiSecret);
-            $address = \App\Models\Currencies::where('code', $currency)->first()->end_wallet;
+            $address = Currencies::where('code', $currency)->first()->end_wallet;
             $lowerCaseCurrency = strtolower($currency);
 
             $query = array(
@@ -92,7 +94,7 @@ class CurrenciesController extends Controller
     public static function retrieve()
     {
 
-        foreach(\App\Models\Currencies::where('hidden', 0)->get() as $currency)
+        foreach(Currencies::where('hidden', 0)->get() as $currency)
         {
             if(auth()->user()){
 
@@ -130,7 +132,6 @@ class CurrenciesController extends Controller
         $netto = $request->value_forwarded_coin;
         $txid = $request->txid_in;
         $currency = $request->coin;
-        Log::notice($request);
         
         $findWalletInDb = UserBalances::where('wallet', $address)->where('currency_code', $currency)->first();
 
@@ -139,8 +140,12 @@ class CurrenciesController extends Controller
             $generatedSecret = md5($findWalletInDb->user_id.'_'.$cryptapiSecret);
 
             if($secret === $generatedSecret) {
+                if(PaymentLog::where('transaction_id', $request->txid_in)->first()) {
+                $usdValue = Currencies::where('currency_code', $currency)->first()->usd_price;
+                $insertPaymentLog = PaymentLog::insert(['user_id' => $findWalletInDb->user_id, 'amount' => $request->value_coin, 'transaction_id' => $request->txid_in, 'currency_code' => $currency, 'callback_log' => $request->all(), 'usd_value' => number_format(($usdValue * $request->value_coin), 4, '.', ''), 'created_at' => now(), 'updated_at' => now()]);
                     $currentBalance = $findWalletInDb->value;
-                    $updateBetBalance = $findWalletInDb->update(['value' => floatval($currentBalance + $amount)]);
+                    $updateWalletBalance = $findWalletInDb->update(['value' => number_format(floatval($currentBalance + $amount), 9, '.', '')]);
+                }
             }
 
         }
@@ -159,7 +164,7 @@ class CurrenciesController extends Controller
             abort(403);
         }
  
-        $data = \App\Models\Currencies::all();
+        $data = Currencies::all();
         return Inertia::render('Admin/Currencies/Show', ['currencies' => $data]);
     }
   
@@ -200,7 +205,7 @@ return Inertia::share(['address' => 'test']);
     } else {
 
     }
-        \App\Models\Currencies::create($request->all());
+        Currencies::create($request->all());
   
         return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
     }
@@ -214,14 +219,14 @@ return Inertia::share(['address' => 'test']);
     public function update(Request $request)
     {
         if ($request->has('currency')) {
-            $get = \App\Models\Currencies::where('id', $request->input('currency'))->first();
+            $get = Currencies::where('id', $request->input('currency'))->first();
 
             if($request->method === 'hide') {
-                $change = \App\Models\Currencies::where('id', $request->input('currency'))->update(['hidden' => 1]);
+                $change = Currencies::where('id', $request->input('currency'))->update(['hidden' => 1]);
                 $success = 'Currency has been hidden. Players with balance are still able to use this currency.';
             }
             if($request->method === 'unhide') {
-                $change = \App\Models\Currencies::where('id', $request->input('currency'))->update(['hidden' => 0]);
+                $change = Currencies::where('id', $request->input('currency'))->update(['hidden' => 0]);
                 $success = 'Currency has been made public.';
             }
 
@@ -241,7 +246,7 @@ return Inertia::share(['address' => 'test']);
     public function destroy(Request $request)
     {
         if ($request->has('id')) {
-            \App\Models\Currencies::find($request->input('id'))->delete();
+            Currencies::find($request->input('id'))->delete();
             return redirect()->back();
         }
     }
