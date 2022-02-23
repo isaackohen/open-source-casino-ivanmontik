@@ -15,6 +15,7 @@ use App\Models\UserBalances;
 use App\Models\Currencies;
 use Inertia\Inertia;
 use App\Models\Gamelist;
+use App\Models\GamesLog;
 
 class ThirdpartyGamesController extends Controller
 {
@@ -162,7 +163,7 @@ class ThirdpartyGamesController extends Controller
                     return response()->json([
                         'status' => 'notEnoughBalance',
                         'result' => ([
-                            'balance' =>  (int) -1,
+                            'balance' => false,
                             'freegames' => (int) 0
                         ]),
                         'id' => 0,
@@ -179,10 +180,14 @@ class ThirdpartyGamesController extends Controller
                 $updateWinBalance = UserBalances::where('user_id', $request->playerid)->where('currency_code', $currencyCode)->update(['value' => $newBalanceFloat]);
             }
 
+            $finalUsdBalance = self::balanceCheck($request->playerid, $currencyCode);
+            $insertGamesLog = GamesLog::insert(['user' => $request->playerid, 'new_balance' => $newBalanceFloat, 'usd_balance' => $finalUsdBalance, 'callback_log' => json_encode($request->all()), 'currency_code' => $currencyCode, 'bet' => $bet, 'win' => $win, 'game' => $request->gameid, 'round' => $request->roundid]);
+
+
             return response()->json([
                 'status' => 'ok',
                 'result' => ([
-                    'balance' => self::balanceCheck($request->playerid, $currencyCode),
+                    'balance' => $finalUsdBalance,
                     'freegames' => (int) 0
                 ]),
                 'id' => 0,
