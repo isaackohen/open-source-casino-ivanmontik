@@ -22,12 +22,27 @@ class UserProfileController extends Controller
      */
     public function show(Request $request)
     {
-        return Jetstream::inertia()->render($request, 'Profile/Show', [
+        return Jetstream::inertia()->render($request, 'Profile/Profile', [
             'sessions' => $this->sessions($request)->all(),
 //            'countries' => countries(),
 //            'languages' => $this->getAvailableLanguages(true)
         ]);
     }
+
+    /**
+     * Show the general profile settings screen.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
+     */
+    public function showPaymentHistory(Request $request)
+    {
+        return Jetstream::inertia()->render($request, 'Profile/PaymentHistory', [
+            'payment_history' => auth()->user()->paymentlog()->get(),
+            'withdraw_history' => auth()->user()->withdrawlog()->get(),
+        ]);
+    }
+
 
     /**
      * Get the current sessions.

@@ -284,10 +284,10 @@
                                     <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="block px-4 py-2 text-xs">
                                         <span class="text-semibold">{{ balance.currency_code }}</span>
                                     </div>
-                                    <div v-else class="block px-4 py-2 text-xs text-gray-400 opacity-80">
+                                    <div v-else class="block px-3 py-2 text-xs text-gray-400 opacity-80">
                                         {{ balance.currency_code }}
                                     </div>
-                                    <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="text-sm right opacity-100 hover:opacity-100">
+                                    <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="text-sm px-1 right opacity-100 hover:opacity-100">
                                         <span v-if="$page.props.currentDepositWallet === null"><jet-button class="ml-3">Generate {{ balance.currency_code }} Address</jet-button></span>
                                         <span v-else>
                                                 {{ $page.props.currentDepositWallet }}                    
@@ -300,9 +300,9 @@
                             </jet-dropdown-link>
 
                         </form>
-                        <div class="mt-1 mb-4" v-if="$page.props.user.currentCurrency === balance.currency_code">
-                       <jet-secondary-button class="ml-4" v-if="!copied" @click="copyClipboard('#copy-clipboard-wallet')">Copy</jet-secondary-button>
-                        <jet-secondary-button class="ml-4" v-if="copied">Copied</jet-secondary-button> 
+                        <div class="mt-1 mb-3" v-if="$page.props.user.currentCurrency === balance.currency_code">
+                       <jet-secondary-button class="ml-2" v-if="!copied" @click="copyClipboard('#copy-clipboard-wallet')">Copy</jet-secondary-button>
+                        <jet-secondary-button class="ml-2" v-if="copied">Copied</jet-secondary-button> 
                     </div>
                     </template>
                 </template>
@@ -311,8 +311,10 @@
                     <jet-secondary-button @click="walletModal = null">
                         Close
                     </jet-secondary-button>
-
-                    <jet-button class="ml-3">
+                    <jet-secondary-button class="ml-2" @click="paymentHistoryRoute()">
+                        Payment History
+                    </jet-secondary-button>
+                    <jet-button class="ml-2">
                         Support
                     </jet-button>
                 </template>
@@ -357,7 +359,6 @@
     import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
     import { ref } from 'vue'
 
-
     export default defineComponent({
         props: {
             title: String,
@@ -389,6 +390,7 @@
                 componentKey: 0,
                 currentBal: null,
                 copied: null,
+                startWithdrawModal: null,
                 walletModal: null,
                 timer: 0
             }
@@ -438,6 +440,10 @@
             },
             logout() {
                 this.$inertia.post(route('logout'));
+            },
+            paymentHistoryRoute() {
+                this.wallet = null;
+                this.$inertia.get(route('payment.history.show'));
             },
             loginRoute() {
                 this.$inertia.get(route('login'));

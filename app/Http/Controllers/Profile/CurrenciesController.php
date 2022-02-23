@@ -132,7 +132,6 @@ class CurrenciesController extends Controller
         $netto = $request->value_forwarded_coin;
         $txid = $request->txid_in;
         $currency = $request->coin;
-        Log::notice($request);
         $findWalletInDb = UserBalances::where('wallet', $address)->where('currency_code', $currency)->first();
 
         if($findWalletInDb) {

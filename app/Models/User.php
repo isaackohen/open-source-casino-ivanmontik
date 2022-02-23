@@ -81,10 +81,18 @@ class User extends Authenticatable /*implements MustVerifyEmail*/
         'profile_photo_url',
     ];
 
-public function UserBalances()
-{
-    return $this->hasMany(\App\Models\UserBalances::class);
-}
+    public function paymentlog()
+    {
+        return $this->hasMany(\App\Models\PaymentLog::class);
+    }
+    public function withdrawlog()
+    {
+        return $this->hasMany(\App\Models\WithdrawLog::class);
+    }
+    public function UserBalances()
+    {
+        return $this->hasMany(\App\Models\UserBalances::class);
+    }
 
     public function isAdmin() {
         if(auth()->user()->email !== 'admin@example.com') {

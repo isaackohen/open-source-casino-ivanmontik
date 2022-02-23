@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon;
 use App\Models\UserBalances;
 
-class PaymentLog extends Model
+class WithdrawLog extends Model
 {
     use HasFactory;
     
-    protected $table = 'payment_log';
+    protected $table = 'withdraw_log';
     public $timestamps = true;
 
 
@@ -21,12 +21,9 @@ class PaymentLog extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'user_id', 'transaction_id', 'currency_code', 'amount', 'usd_value', 'created_at', 'updated_at'
+        'id', 'user_id', 'transaction_id', 'withdraw_address', 'currency_code', 'amount', 'usd_value', 'status', 'created_at', 'updated_at'
     ];
 
-    protected $hidden = [
-        'callback_log',
-    ];
 
     public function user()
     {
