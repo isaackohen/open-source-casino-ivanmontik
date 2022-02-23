@@ -142,7 +142,7 @@ class CurrenciesController extends Controller
             if($secret === $generatedSecret) {
                 if(!PaymentLog::where('transaction_id', $request->txid_in)->first()) {
                 $usdValue = Currencies::where('code', $currency)->first()->usd_price;
-                $insertPaymentLog = PaymentLog::insert(['user_id' => $findWalletInDb->user_id, 'amount' => $request->value_coin, 'transaction_id' => $request->txid_in, 'currency_code' => $currency, 'callback_log' => $request->all(), 'usd_value' => number_format(($usdValue * $request->value_coin), 4, '.', ''), 'created_at' => now(), 'updated_at' => now()]);
+                $insertPaymentLog = PaymentLog::insert(['user_id' => $findWalletInDb->user_id, 'amount' => $request->value_coin, 'transaction_id' => $request->txid_in, 'currency_code' => $currency, 'callback_log' => json_encode($request), 'usd_value' => number_format(($usdValue * $request->value_coin), 4, '.', ''), 'created_at' => now(), 'updated_at' => now()]);
                     $currentBalance = $findWalletInDb->value;
                     $updateWalletBalance = $findWalletInDb->update(['value' => number_format(floatval($currentBalance + $amount), 9, '.', '')]);
                 }
