@@ -155,9 +155,10 @@ class ThirdpartyGamesController extends Controller
 
                 if($balanceFirst > $bet)
                 {
-                    $newBalance = ($balanceFirst - $bet);
-                    $newBalanceFloat = self::newBalanceFloat($newBalance, $currencyCode);
-                    $updateBetBalance = UserBalances::where('user_id', $request->playerid)->where('currency_code', $currencyCode)->update(['value' => $newBalanceFloat]);
+                    $newBetBalance = ($balanceFirst - $bet);
+                    $newBetBalanceFloat = self::newBalanceFloat($newBetBalance, $currencyCode);
+                    $updateBetBalance = UserBalances::where('user_id', $request->playerid)->where('currency_code', $currencyCode)->update(['value' => $newBetBalanceFloat]);
+                    $finalBalance = $newBetBalanceFloat;
                 } else {
 
                     return response()->json([
@@ -178,10 +179,11 @@ class ThirdpartyGamesController extends Controller
                 $newWinBalance = ($balanceSecond + $win);
                 $newWinBalanceFloat = self::newBalanceFloat($newWinBalance, $currencyCode);
                 $updateWinBalance = UserBalances::where('user_id', $request->playerid)->where('currency_code', $currencyCode)->update(['value' => $newWinBalanceFloat]);
+                $finalBalance = $newWinBalanceFloat;
             }
 
             $finalUsdBalance = self::balanceCheck($request->playerid, $currencyCode);
-            $insertGamesLog = GamesLog::insert(['user_id' => $request->playerid, 'new_balance' => $newBalanceFloat, 'usd_balance' => floatval(number_format(($finalUsdBalance / 100), 5, '.', '')), 'callback_log' => json_encode($request->all()), 'currency_code' => $currencyCode, 'bet' => $bet, 'win' => $win, 'game' => $request->gameid, 'round' => $request->roundid, 'created_at' => now(), 'updated_at' => now()]);
+            $insertGamesLog = GamesLog::insert(['user_id' => $request->playerid, 'new_balance' => $finalBalance, 'usd_balance' => floatval(number_format(($finalUsdBalance / 100), 5, '.', '')), 'callback_log' => json_encode($request->all()), 'currency_code' => $currencyCode, 'bet' => $bet, 'win' => $win, 'game' => $request->gameid, 'round' => $request->roundid, 'created_at' => now(), 'updated_at' => now()]);
 
 
             return response()->json([
