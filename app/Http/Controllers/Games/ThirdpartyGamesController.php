@@ -22,7 +22,7 @@ class ThirdpartyGamesController extends Controller
     use AvailableLanguages;
 
     /**
-     * Show the general profile settings screen.
+     * Show pre-load casino game page.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
@@ -50,7 +50,7 @@ class ThirdpartyGamesController extends Controller
 
 
     /**
-     * Show the general profile settings screen.
+     * Start game session and return iFrame game URL to front.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response
@@ -90,10 +90,8 @@ class ThirdpartyGamesController extends Controller
         ]);
         }
 
-
-
     /**
-     * Show the general profile settings screen.
+     * Balance Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Inertia\Response

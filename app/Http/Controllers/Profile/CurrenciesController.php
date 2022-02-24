@@ -18,6 +18,7 @@ use App\Models\UserBalances;
 use Illuminate\Support\Facades\Log;
 use App\Models\Currencies;
 use App\Models\PaymentLog;
+use App\Models\WithdrawLog;
 
 class CurrenciesController extends Controller
 {
@@ -151,9 +152,8 @@ class CurrenciesController extends Controller
         return;
     }
 
-
     /**
-     * Show the form for creating a new resource.
+     * Show all currency information for admin
      *
      * @return Response
      */
@@ -167,22 +167,54 @@ class CurrenciesController extends Controller
         return Inertia::render('Admin/Currencies/Show', ['currencies' => $data]);
     }
   
-
-    public function generateWallet(Request $request)
+    /**
+     * Show withdraw request page
+     *
+     * @return Response
+     */
+    public function withdrawRequestShow()
     {
+        return Inertia::render('Profile/WithdrawRequest');
+    }
+  
+    /**
+     * User withdrawal request form
+     *
+     * @return Response
+     */
+    public function withdrawRequestSubmit(Request $request)
+    {
+        Validator::make($request->all(), [
+            'withdraw_currency' => ['required', 'min:1', 'max:10'],
+            'withdraw_address' => ['required', 'min:5', 'max:30'],
+            'withdraw_amount' => ['required', 'min:1', 'max:40'],
+        ])->validate();
+  
+    $findWalletInDb = UserBalances::where('currency_code', $request->withdraw_currency)->where('user_id', auth()->user()->id)->first();
 
-return Inertia::share(['address' => 'test']);
-     
-   
+    if(floatval($request->withdraw_amount) < floatval($findWalletInDb->value)) { 
+        $updateWalletBalance = $findWalletInDb->update(['value' => number_format(floatval($findWalletInDb->value - $request->withdraw_amount), 9, '.', '')]);
+        $usdValue = Currencies::where('code', $request->withdraw_currency)->first()->usd_price;
+        $insertWithdrawLog = WithdrawLog::insert(['user_id' => $findWalletInDb->user_id, 'amount' => $request->withdraw_amount, 'transaction_id' => '0', 'currency_code' => $request->withdraw_currency, 'withdraw_address' => $request->withdraw_address, 'usd_value' => number_format(($usdValue * $request->withdraw_amount), 4, '.', ''), 'status' => 'REQUESTED','created_at' => now(), 'updated_at' => now()]);
+
+        return back()->with('flash', ['bannerStyle' => 'success', 'banner' => 'Succesfully requested withdrawal.',]);
+    } else {
+        return back()->with('flash', ['bannerStyle' => 'danger', 'banner' => 'Not enough balance.',]);
+    }
+        return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Admin Form to add new currency
      *
      * @return Response
      */
     public function store(Request $request)
     {
+        if(! auth()->user()->isAdmin()) {
+            abort(403);
+        }
+
         Validator::make($request->all(), [
             'code' => ['required', 'min:2', 'max:10'],
             'name' => ['required', 'min:2', 'max:25'],
@@ -202,16 +234,14 @@ return Inertia::share(['address' => 'test']);
          }
 
     } else {
-
+        //Spacing future price API's
     }
         Currencies::create($request->all());
-  
-        return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
+          return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
     }
-  
-  
+
     /**
-     * Show the form for creating a new resource.
+     * Admin Route for updating existing currency settings
      *
      * @return Response
      */
@@ -229,12 +259,11 @@ return Inertia::share(['address' => 'test']);
                 $success = 'Currency has been made public.';
             }
 
-
-        return back()->with('flash', [
-            'bannerStyle' => 'success',
-            'banner' => $success,
-        ]);
-    }
+            return back()->with('flash', [
+                'bannerStyle' => 'success',
+                'banner' => $success,
+            ]);
+        }
     }
 
     /**
@@ -249,5 +278,4 @@ return Inertia::share(['address' => 'test']);
             return redirect()->back();
         }
     }
-
 }

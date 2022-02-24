@@ -19,6 +19,7 @@
         <link rel="manifest" href="/site.webmanifest">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
+        
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
@@ -30,11 +31,5 @@
             <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
         @endenv
 
-<div id="dib-posts"></div>
-
-    <script>
-var dib_id = '46b5cf24-6494-4131-915e-c4945755d39f';
-</script>
-<script src="https://io.dropinblog.com/js/embed.js"></script>
     </body>
 </html>

@@ -24,8 +24,6 @@ class UserProfileController extends Controller
     {
         return Jetstream::inertia()->render($request, 'Profile/Profile', [
             'sessions' => $this->sessions($request)->all(),
-//            'countries' => countries(),
-//            'languages' => $this->getAvailableLanguages(true)
         ]);
     }
 

@@ -54,3 +54,7 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/test', [Games
 Route::middleware(['auth:sanctum', 'verified'])->put('/admin/games/delete', [GamesController::class, 'delete'])->name('admin.games.delete');
 Route::middleware(['auth:sanctum', 'verified'])->post('/currencies/generateWallet', [CurrenciesController::class, 'generateWallet'])
             ->name('currencies.generateWallet');
+Route::middleware(['auth:sanctum', 'verified'])->get('/user/withdrawRequest', [CurrenciesController::class, 'withdrawRequestShow'])
+            ->name('withdrawRequest.show');
+Route::middleware(['auth:sanctum', 'verified'])->put('/user/withdrawRequest/submit', [CurrenciesController::class, 'withdrawRequestSubmit'])
+            ->name('withdrawRequest.submit');

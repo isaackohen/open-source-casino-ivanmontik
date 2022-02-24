@@ -24,7 +24,7 @@ class GamesController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
+     * Show admin games control page.
      *
      * @return Response
      */
@@ -40,38 +40,7 @@ class GamesController extends Controller
         return Inertia::render('Admin/Games/Show', ['gamescount' => $gamesCount, 'providerscount' => $providerCount, 'apikey' => $apikey]);
     }
   
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        Validator::make($request->all(), [
-            'code' => ['required', 'min:2', 'max:10'],
-            'name' => ['required', 'min:2', 'max:25'],
-            'price_api' => ['required'],
-            'price_api_id' => ['required'],
-            'payment_method' => ['required'],
-            'hidden' => ['required'],
-        ])->validate();
-  
-    if($request->price_api === 'coingecko') { 
-        try {
-            $requestCoingecko = Http::get('https://api.coingecko.com/api/v3/coins/'.$request->price_api_id.'?localization=false&market_data=true');
-            $price = floatval($requestCoingecko['market_data']['current_price']['usd']);
-         } catch (\Exception $exception) {
-                return back()->with('flash', ['bannerStyle' => 'danger', 'banner' => 'Was unable to retrieve USD$ Price from '.$request->price_api.' for '.$request->code.' using price tag ID: '.$request->price_api_id.'.',]);
-         }
 
-    } else {
-
-    }
-        \App\Models\Currencies::create($request->all());
-  
-        return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
-    }
-  
     /**
      * Run session test.
      *
