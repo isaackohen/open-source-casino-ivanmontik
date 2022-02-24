@@ -1,4 +1,4 @@
-<template>
+    <template>
     <div>
         <Head :title="title" />
 
@@ -36,7 +36,7 @@
                                 <jet-dropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex">
-                                            <button type="button" class="text-xs inline-flex items-center h-8 px-4 text-indigo-700 bg-indigo-100 sm:text-sm transition-colors duration-[200ms] ease border border-indigo-200 rounded-full hover:bg-indigo-500 hover:text-indigo-100 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition">
+                                            <button type="button" class="text-xs inline-flex items-center h-8 px-4 text-red-700 bg-red-100 sm:text-sm transition-colors duration-[200ms] ease border border-red-200 rounded-full hover:bg-red-500 hover:text-red-100 px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 hover:text-gray-700 focus:outline-none transition">
                                                 {{ $page.props.currentBalance }} {{ $page.props.user.currentCurrency }}
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

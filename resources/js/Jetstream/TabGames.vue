@@ -1,4 +1,4 @@
-<template>
+https://tailwindcss.com/docs/font-size<template>
 
   <TabGroup>
     <div class="p-2 bg-gray-50 rounded-lg flex">
@@ -7,8 +7,8 @@
         <button @click="resetGames('slots')"
           :class="[
             selected
-              ? 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-bold tracking-wider leading-none uppercase text-center text-gray-900 border-b-2 border-indigo-300 hover:text-gray-600 hover:border-indigo-200'
-              : 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-medium tracking-wider leading-none uppercase text-center text-gray-500 border-b-2 border-transparent hover:text-gray-600 hover:border-indigo-200'
+              ? 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-bold tracking-wider leading-none uppercase text-center text-gray-900 border-b-2 border-red-300 hover:text-gray-600 hover:border-red-200'
+              : 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-medium tracking-wider leading-none uppercase text-center text-gray-500 border-b-2 border-transparent hover:text-gray-600 hover:border-red-200'
           ]"
         >
           Slots
@@ -18,8 +18,8 @@
         <button @click="resetGames('live')"
           :class="[
             selected
-              ? 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-bold tracking-wider leading-none uppercase text-center text-gray-900 border-b-2 border-indigo-400 hover:text-gray-600 hover:border-indigo-200'
-              : 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-medium tracking-wider leading-none uppercase text-center text-gray-500 border-b-2 border-transparent hover:text-gray-600 hover:border-indigo-200'
+              ? 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-bold tracking-wider leading-none uppercase text-center text-gray-900 border-b-2 border-red-400 hover:text-gray-600 hover:border-red-200'
+              : 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-medium tracking-wider leading-none uppercase text-center text-gray-500 border-b-2 border-transparent hover:text-gray-600 hover:border-red-200'
           ]"
         >
           Live Casino
@@ -29,8 +29,8 @@
         <button @click="resetGames('virtualsports')"
           :class="[
             selected
-              ? 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-bold tracking-wider uppercase leading-none text-center text-gray-900 border-b-2 border-indigo-400 hover:text-gray-600 hover:border-indigo-200'
-              : 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-medium tracking-wider uppercase leading-none text-center text-gray-500 border-b-2 border-transparent hover:text-gray-600 hover:border-indigo-200'
+              ? 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-bold tracking-wider uppercase leading-none text-center text-gray-900 border-b-2 border-red-400 hover:text-gray-600 hover:border-red-200'
+              : 'inline-block py-3 px-1 ml-1 mr-1 text-tab font-medium tracking-wider uppercase leading-none text-center text-gray-500 border-b-2 border-transparent hover:text-gray-600 hover:border-red-200'
           ]"
         >
           Virtual Sports
@@ -42,7 +42,7 @@
     <Listbox v-model="provider">
       <div class="relative mt-1">
         <ListboxButton
-          class="relative w-full py-1 pl-3 pr-4 text-center text-sm font-medium text-gray-500 tracking-normal leading-none shadow-sm bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-indigo-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
+          class="relative w-full py-1 pl-3 pr-4 text-center text-sm font-medium text-gray-500 tracking-normal leading-none shadow-sm bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-red-300 focus-visible:ring-offset-2 focus-visible:border-red-500 sm:text-sm"
         >
           <span class="block truncate">{{ provider.name }}</span>
           <span
@@ -70,7 +70,7 @@
             >
               <li
                 :class="[
-                  active ? 'text-indigo-900 bg-indigo-100' : 'text-gray-900',
+                  active ? 'text-red-900 bg-red-100' : 'text-gray-900',
                   'cursor-default select-none relative py-2 pl-10 pr-4',
                 ]"
               >
@@ -83,7 +83,7 @@
                 >
                 <span
                   v-if="selected"
-                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600"
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 text-red-600"
                 >
                   <CheckIcon class="w-5 h-5" aria-hidden="true" />
                 </span>
@@ -97,7 +97,7 @@
 </div>
     <TabPanels class="mt-2 mb-4">
       <TabPanel>
-        <div class="p-2 bg-gray-50 rounded-lg">
+        <div class="p-4 bg-gray-50 rounded-lg">
           <div
             class="flex flex-wrap overflow-hidden pb-2 lg:-mx-1 xl:-mx-1"
           >
@@ -116,7 +116,7 @@
                 <div
                   class="w-full overflow-hidden w-full px-1 my-2 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
                 >
-                  <game-thumb
+                  <game-thumb class="cursor-pointer"
                     :href="
                       route('game.show', {
                         slug: game.game_slug
@@ -163,7 +163,7 @@
                 <div
                   class="w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
                 >
-                  <game-thumb
+                  <game-thumb class="cursor-pointer"
                     :href="
                       route('game.show', {
                         slug: game.game_slug
@@ -209,7 +209,7 @@
                 <div
                   class="w-full overflow-hidden w-full px-1 xxs:w-1/2 xs:w-1/3 xs:px-2 sm:w-1/3 sm:px-2 md:w-1/4 md:px-2 lg:my-3 lg:px-2 lg:w-1/6 xl:my-3 xl:px-2 xl:w-1/8"
                 >
-                  <game-thumb
+                  <game-thumb class="cursor-pointer"
                     :href="
                       route('game.show', {
                         slug: game.game_slug
@@ -239,7 +239,7 @@
       <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 overflow-hidden sm:rounded-lg text-center font-semibold text-gray-500">
 
-        <button v-if="games.length > 1" @click="loadGames(this.currentTab)" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100">
+        <button v-if="games.length > 1" @click="loadGames(this.currentTab)" class="h-10 px-6 text-red-700 text-tab uppercase tracking-widest bg-red-50 font-medium transition-colors duration-[350ms] ease border-2 border-red-200 rounded-full hover:bg-red-500 hover:border-red-500 hover:text-red-100">
                     Load more {{ provider.value }}
                   </button>
     </div></div>

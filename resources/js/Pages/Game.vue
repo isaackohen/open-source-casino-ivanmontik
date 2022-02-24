@@ -1,4 +1,4 @@
-<template>
+so<template>
     <app-layout :title="`${$page.props.game_header}`">
         <template #gameheader>
             <h4 class="font-semibold text-lg text-gray-800 leading-tight">
@@ -14,10 +14,10 @@
 
             <div v-else class="container aspect-w-16 aspect-h-9 bg-white rounded-lg">
                 <div class="flex items-center justify-center">
-                 <button v-if="$page.props.loggedUser" @click="playGame('USD')" class="h-10 px-6 text-indigo-700 text-sm transition-colors duration-[100ms] ease border border-indigo-500 rounded-full hover:bg-indigo-500 hover:text-indigo-100" :class="{ 'opacity-25': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
+                 <button v-if="$page.props.loggedUser" @click="playGame('USD')" class="h-10 px-6 text-red-700 text-sm transition-colors duration-[100ms] ease border border-red-500 rounded-full hover:bg-red-500 hover:text-red-100" :class="{ 'opacity-25': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
                     Play USD$
                 </button>
-                 <button v-if="$page.props.demo === 1" @click="playGame('demo')" class="h-10 px-6 ml-4 text-gray-400 text-sm transition-colors duration-[100ms] ease border border-indigo-100 rounded-full hover:bg-indigo-100 hover:text-indigo-900" :class="{ 'opacity-50': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
+                 <button v-if="$page.props.demo === 1" @click="playGame('demo')" class="h-10 px-6 ml-4 text-gray-400 text-sm transition-colors duration-[100ms] ease border border-red-100 rounded-full hover:bg-red-100 hover:text-red-900" :class="{ 'opacity-50': gameLoadLauncher.processing }" :disabled="gameLoadLauncher.processing">
                     Play DEMO
                 </button>
                 </div>  
