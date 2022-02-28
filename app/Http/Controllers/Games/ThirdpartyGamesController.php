@@ -161,7 +161,6 @@ class ThirdpartyGamesController extends Controller
                     return response()->json([
                         'status' => 'notEnoughBalance',
                         'result' => ([
-                            'balance' => false,
                             'freegames' => (int) 0
                         ]),
                         'id' => 0,

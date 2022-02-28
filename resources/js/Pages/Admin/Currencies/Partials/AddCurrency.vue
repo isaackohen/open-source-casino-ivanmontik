@@ -8,7 +8,9 @@
             <p>Add new sub currency to be used for deposits & withdrawals. All sub-currencies are paired to <b>'native'</b> currency setup.
             <br>Native currencies are used by slotmachines. By default this is USD$ value.</p>
             <br><br>
-            <p>Please note that once a currency has balances stored within greater as 10$, the currency can <b>not</b> be deleted for security reasons - in this case set currency to hidden.</p>
+            <p><b>Out of box supported currency (codes):</b>
+            <br><i>{{ this.available_crypto }}</i>
+            </p>
             <br>
             <p>Once currency is hidden only players with balance in such currency will be able to see and make new deposits in such.</p>
         </template>
@@ -86,6 +88,8 @@
     import JetLabel from '@/Jetstream/Label.vue'
 
     export default defineComponent({
+        props: ['available_crypto'],
+
         components: {
             JetActionMessage,
             JetButton,
@@ -94,7 +98,10 @@
             JetInputError,
             JetLabel,
         },
-
+           created() {
+                this.add();
+                //this.timer = setInterval(this.reloadCurBalance, 10000);
+           },
         data() {
             return {
                 form: this.$inertia.form({

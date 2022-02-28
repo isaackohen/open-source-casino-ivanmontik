@@ -44,12 +44,37 @@ class UpdatePrices extends Command
             
             if($currency->price_api === 'coingecko')
             {
+                //Updating USD$ Value using Coingecko
                 $requestCoingecko = Http::get('https://api.coingecko.com/api/v3/coins/'.$currency->price_api_id.'?localization=false&market_data=true');
                 $price = floatval($requestCoingecko['market_data']['current_price']['usd']);
+                
+                $currency->update([
+                    'usd_price' => $price,
+                    'updated_at' => now(),
+                ]);
             }
 
+            if($currency->payment_method === 'cryptapi') {
+                //Getting estimated tx fees for each currency
+                $txUrl = "https://api.cryptapi.io/".config('currencytickers.'.$currency->code.'')."/estimate?priority=fast&addresses=1";
+                $txGet = Http::get($txUrl);
+                if($txGet['status'] === 'success') {
+                    $currency->update(['txfee' => $txGet['estimated_cost']]);
+                }
+
+                //Getting minimum deposit value
+                $minDepUrl = "https://api.cryptapi.io/".config('currencytickers.'.$currency->code.'')."/info?prices=0";
+                $minDepGet = Http::get($minDepUrl);
+                if($minDepGet['status'] === 'success') {
+                    $currency->update(['minimum_deposit' => $minDepGet['minimum_transaction_coin']]);
+                }
+            }
+
+
+
            $currency->update([
-                'usd_price' => $price
+                'sum' => \App\Models\UserBalances::where('currency_code', $currency->code)->sum('value'),
+                'updated_at' => now(),
             ]);
         }
     }

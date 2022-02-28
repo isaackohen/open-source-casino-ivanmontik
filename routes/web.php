@@ -27,8 +27,7 @@ Route::get('/', function () {
 })->name('casino');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-    ]);
+    return Redirect::route('casino');
 })->name('dashboard');
 
 Route::get('/poker', function () {
@@ -36,7 +35,7 @@ Route::get('/poker', function () {
     ]);
 })->name('poker');
 
-
+Route::post('login-web3', \App\Actions\LoginUsingWeb3::class);
 Route::middleware(['auth:sanctum', 'verified'])->get('/play/{slug}/{currency}', [ThirdpartyGamesController::class, 'start'])->name('game.real.start');
 Route::middleware(['auth:sanctum', 'verified'])->get('/game/{slug}', [ThirdpartyGamesController::class, 'show'])->name('game.show');
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin/currencies', [CurrenciesController::class, 'index'])->name('currencies.show');

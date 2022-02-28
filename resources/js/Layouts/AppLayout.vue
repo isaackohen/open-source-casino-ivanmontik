@@ -290,13 +290,17 @@
                                     <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="text-sm px-1 right opacity-100 hover:opacity-100">
                                         <span v-if="$page.props.currentDepositWallet === null"><jet-button class="ml-3">Generate {{ balance.currency_code }} Address</jet-button></span>
                                         <span v-else>
-                                                {{ $page.props.currentDepositWallet }}                    
+                                                {{ $page.props.currentDepositWallet }}
                                         <input type="hidden" id="copy-clipboard-wallet" :value="$page.props.currentDepositWallet">
 
                                     </span>
                                 </div>
                                     <div v-else class="text-sm right opacity-70 hover:opacity-100">view deposit address</div>   
                             </div>
+                            <div v-if="$page.props.user.currentCurrency === balance.currency_code" class="block px-4 py-2 text-xs">
+                                <small>Min. deposit: {{ balance.minimum_deposit }}{{ balance.currency_code }} ({{ balance.minimum_deposit_usd}}$)</small>
+                            </div>
+
                             </jet-dropdown-link>
 
                         </form>

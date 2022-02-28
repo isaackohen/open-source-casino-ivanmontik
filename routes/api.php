@@ -40,7 +40,7 @@ Route::get('/gamelist', function (Request $request) {
 $gamelist = QueryBuilder::for(Gamelist::class)
     ->allowedFilters('name', 'type', 'game_provider')
     ->defaultSort('-index_rating')
-    ->paginate(18)
+    ->paginate(36)
     ->appends(request()->query());
 
    return $gamelist;

@@ -64,7 +64,7 @@ class CurrenciesController extends Controller
             $cryptapiSecret = config('settings.cryptapi_secret');
             $secret = md5($user_id.'_'.$cryptapiSecret);
             $address = Currencies::where('code', $currency)->first()->end_wallet;
-            $lowerCaseCurrency = strtolower($currency);
+            $lowerCaseCurrency = strtoupper($currency);
 
             $query = array(
               "callback" => $url.'/api/callback/cryptapi?secret='.$secret,
@@ -74,14 +74,11 @@ class CurrenciesController extends Controller
               "post" => "0",
               "priority" => "fast"
             );
-
-            $url = "https://api.cryptapi.io/".$lowerCaseCurrency."/create?" . http_build_query($query);
+            $url = "https://api.cryptapi.io/".config('currencytickers.'.$lowerCaseCurrency.'')."/create?" . http_build_query($query);
             $curl = curl_init();
-
             $get = Http::get($url);
-              Log::warning($get);
 
-                return $get['address_in'];
+            return $get['address_in'];
     }
 
     public function selectedCurrency(Request $request)
@@ -98,19 +95,20 @@ class CurrenciesController extends Controller
         foreach(Currencies::where('hidden', 0)->get() as $currency)
         {
             if(auth()->user()){
-
             $selectUserBalance = UserBalances::where('user_id', auth()->user()->id)->where('currency_code', $currency->code)->first();
             
+            // Retrieve User Balance for specific currency, if not found insert new balance row
             if($selectUserBalance) {
                 $printUserBalance = $selectUserBalance->value;
             } else {
                 $insert = UserBalances::insert(['currency_code' => $currency->code, 'user_id' => auth()->user()->id, 'value' => floatval('0')]);
                 $printUserBalance = UserBalances::where('user_id', auth()->user()->id)->first()->value;
             }
-            $balances[] = array('currency_code' => $currency->code, 'balance' => number_format($printUserBalance, 9, '.', ''), 'usd_value' => number_format(floatval($printUserBalance * $currency->usd_price), 2, '.', ''), 'hidden' => $currency->hidden);
+            // Combine currency info & user balance
+                $balances[] = array('currency_code' => $currency->code, 'minimum_deposit' =>  number_format(floatval(1.1 * $currency->minimum_deposit), 7, '.', ''), 'minimum_deposit_usd' => number_format(floatval(($currency->minimum_deposit * $currency->usd_price) * 1.1), 2, '.', ''), 'balance' => number_format($printUserBalance, 9, '.', ''), 'usd_value' => number_format(floatval($printUserBalance * $currency->usd_price), 2, '.', ''), 'hidden' => $currency->hidden);
             } else {
-
-            $balances[] = array('currency_code' => $currency->code, 'balance' => number_format('0', 9, '.', ''), 'usd_value' => floatval('0' * $currency->usd_price), 'hidden' => $currency->hidden);
+                // Send just currency info if not logged in
+                $balances[] = array('currency_code' => $currency->code, 'balance' => number_format('0', 9, '.', ''), 'usd_value' => floatval('0' * $currency->usd_price), 'hidden' => $currency->hidden);
             }
 
         }
@@ -153,7 +151,7 @@ class CurrenciesController extends Controller
     }
 
     /**
-     * Show all currency information for admin
+     * Show all currency page for admin
      *
      * @return Response
      */
@@ -163,8 +161,7 @@ class CurrenciesController extends Controller
             abort(403);
         }
  
-        $data = Currencies::all();
-        return Inertia::render('Admin/Currencies/Show', ['currencies' => $data]);
+        return Inertia::render('Admin/Currencies/Show', ['available_crypto' => config('currencytickers.available_crypto'), 'currencies' => Currencies::all()]);
     }
   
     /**
@@ -237,7 +234,10 @@ class CurrenciesController extends Controller
         //Spacing future price API's
     }
         Currencies::create($request->all());
-          return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
+        \Artisan::call('currency:updateprices');
+        \Artisan::call('optimize:clear');
+
+        return back()->with('flash', ['bannerStyle' => 'success', 'banner' => $request->code.' currency has succesfully been added.',]);
     }
 
     /**
@@ -247,6 +247,17 @@ class CurrenciesController extends Controller
      */
     public function update(Request $request)
     {
+        if(! auth()->user()->isAdmin()) {
+            abort(403);
+        }
+        
+        try {
+        if($request->method === 'updatePrices') {
+            \Artisan::call('currency:updateprices');
+            \Artisan::call('optimize:clear');
+            $success = 'Currency prices updated.';
+        }
+
         if ($request->has('currency')) {
             $get = Currencies::where('id', $request->input('currency'))->first();
 
@@ -258,12 +269,16 @@ class CurrenciesController extends Controller
                 $change = Currencies::where('id', $request->input('currency'))->update(['hidden' => 0]);
                 $success = 'Currency has been made public.';
             }
-
-            return back()->with('flash', [
-                'bannerStyle' => 'success',
-                'banner' => $success,
-            ]);
         }
+         } catch (\Exception $exception) {
+                return back()->with('flash', ['bannerStyle' => 'danger', 'banner' => 'Error occured: '.$exception.'.',]);
+        }
+
+        return back()->with('flash', [
+            'bannerStyle' => 'success',
+            'banner' => $success,
+        ]);
+
     }
 
     /**
@@ -273,6 +288,10 @@ class CurrenciesController extends Controller
      */
     public function destroy(Request $request)
     {
+        if(! auth()->user()->isAdmin()) {
+            abort(403);
+        }
+
         if ($request->has('id')) {
             Currencies::find($request->input('id'))->delete();
             return redirect()->back();

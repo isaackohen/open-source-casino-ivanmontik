@@ -21,8 +21,13 @@ class Currencies extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'code', 'name', 'usd_price', 'price_api', 'price_api_id', 'hidden', 'payment_method', 'end_wallet'
+        'id', 'code', 'name', 'usd_price', 'price_api', 'price_api_id', 'hidden', 'payment_method', 'end_wallet', 'minimum_withdrawal', 'minimum_deposit', 'sum', 'txfee'
     ];
+
+    protected $casts = [
+        'updated_at' => "datetime:Y-m-d\TH:i",
+    ];
+
 
     public function UserBalances()
     {

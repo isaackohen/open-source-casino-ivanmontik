@@ -15,21 +15,28 @@
                                     <div class="space-y-6">
                                         <div class="flex items-center justify-between" v-for="currency in currencies" :key="currency.id">
                                             <div>
-                                                {{ currency.name }}<br>
-                                                <span class="text-xs text-gray-400">Forwarding towards:<br>
-                                                {{ currency.end_wallet }}</span>
-                                                <button v-if="currency.hidden === 0" class="cursor-pointer ml-1 text-xs text-gray-400 underline" @click="confirmUpdatingCurrency('hide', currency.id)">
+                                                {{ currency.name }}
+                                                                                                <button v-if="currency.hidden === 0" class="cursor-pointer ml-1 text-xs text-gray-400 underline" @click="confirmUpdatingCurrency('hide', currency.id)">
                                                     Hide
                                                 </button>
                                                 <button v-if="currency.hidden === 1" class="cursor-pointer ml-1 text-xs text-gray-400 underline" @click="confirmUpdatingCurrency('unhide', currency.id)">
                                                     Unhide
                                                 </button>
+                                                <br>
+                                                <span class="text-xs text-gray-400">Forwarding towards:<br>
+                                                {{ currency.end_wallet }}</span>
+
                                             </div>
 
                                             <div class="flex items-center">
                                                 <div class="text-sm text-gray-400" v-if="currency.updated_at">
-                                                    Currency Value: {{ currency.usd_price }}$ USD<br>
-                                                    <small>Updated {{ currency.updated_at }}</small>
+                                                    {{ currency.usd_price }}$ USD<br>
+                                                    <small>On {{ currency.updated_at }}</small>
+                                                </div>
+
+                                                <div class="text-sm ml-4 text-gray-400" v-if="currency.updated_at">
+                                                    Player Balances:<br>
+                                                    <small>{{ currency.sum }}{{ currency.code }}</small>
                                                 </div>
 
                                                 <button class="cursor-pointer ml-6 text-sm text-gray-400 underline">
@@ -43,7 +50,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <jet-button class="ml-2 mt-4" @click="updatePrices()" :class="{ 'opacity-25': updateCurrencyForm.processing }" :disabled="updateCurrencyForm.processing">
+                                            Update Prices & Balances
+                                    </jet-button>
                                 </template>
+
                             </jet-action-section>
 
 
@@ -139,7 +150,6 @@
                 currencyBeingDeleted: null,
             }
         },
-
         methods: {
             confirmDeletingCurrency(currency) {
                 this.currencyBeingDeleted = currency
@@ -155,6 +165,13 @@
                     onSuccess: () => (this.updateModal = null, this.updateCurrency = null),
                 })
             },
+            updatePrices() {
+                this.updateCurrencyForm.put(route('admin.currencies.update', { method: 'updatePrices' }), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => (this.updateModal = null),
+                })
+            },            
             destroyCurrency() {
                 this.deleteCurrencyForm.delete(route('admin.currencies.destroy', { id: this.currencyBeingDeleted }), {
                     preserveScroll: true,

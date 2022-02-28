@@ -12,7 +12,7 @@
                     <manage-currency :currencies="currencies" class="mt-4 sm:mt-0" />
                                         <jet-section-border />
 
-                    <add-currency class="mt-10 sm:mt-0" />
+                    <add-currency :available_crypto="available_crypto" class="mt-10 sm:mt-0" />
                 </div>
 
             </div>
@@ -28,7 +28,7 @@
     import ManageCurrency from '@/Pages/Admin/Currencies/Partials/ManageCurrency.vue'
 
     export default defineComponent({
-        props: ['currencies'],
+        props: ['currencies', 'available_crypto'],
 
         components: {
             AppLayout,
