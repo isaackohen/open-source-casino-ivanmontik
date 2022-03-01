@@ -20,15 +20,21 @@
                         <div>
                             {{ payment.currency_code }} 
                             <small class="ml-1 text-xs text-gray-400">
-                                ±{{ payment.usd_value }}$ at time of deposit
+                                ±{{ payment.usd_value }}$ - <u>{{ payment.created_at }}</u>
                             </small>
                         <br>
                         <span class="text-xs text-gray-500">Tx. id {{ payment.transaction_id }} </span>
+                        <span class="text-xs text-gray-500" v-if="$page.props.user.super === '1'"><br>User @{{ payment.user_id }}</span>
                         </div>
 
                         <div class="flex items-center text-md text-green-500">
                                 +{{ payment.amount }} {{ payment.currency_code }}
                         </div>
+
+
+
+
+                        
                     </div>
                 </div>
             </template>

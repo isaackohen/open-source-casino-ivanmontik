@@ -22,7 +22,7 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <jet-label for="withdraw_amount" value="Amount to withdraw" />
-                <jet-input id="withdraw_amount" type="number" :placeholder="$page.props.user.currentBalance" class="mt-1 block w-full" v-model="form.withdraw_amount" ref="withdraw_amount" autocomplete="current-withdraw_amount" />
+                <jet-input id="withdraw_amount" type="text" :placeholder="$page.props.user.currentBalance" class="mt-1 block w-full" v-model="form.withdraw_amount" ref="withdraw_amount" autocomplete="current-withdraw_amount" />
                 <jet-input-error :message="form.errors.withdraw_amount" class="mt-2" />
             </div>
 

@@ -39,8 +39,15 @@ Route::group(['middleware' => config('jetstream.middleware', ['web'])], function
         Route::get('/data/launchGame', [ThirdpartyGamesController::class, 'play'])
             ->name('user.data.launchGame');
 
+        Route::get('/admin/paymentLedger', [CurrenciesController::class, 'paymentLedger'])
+            ->name('admin.payments.show');
+
+        Route::put('/admin/markPayment', [CurrenciesController::class, 'markPayment'])
+            ->name('admin.markpayment');
+
         Route::get('/user/paymentHistory', [UserProfileController::class, 'showPaymentHistory'])
             ->name('payment.history.show');
+
 
         Route::post('/user/withdrawRequest', [UserProfileController::class, 'withdrawRequest'])
             ->name('payment.withdraw.request');

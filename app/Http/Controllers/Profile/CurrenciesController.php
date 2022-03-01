@@ -150,11 +150,41 @@ class CurrenciesController extends Controller
         return;
     }
 
-    /**
-     * Show all currency page for admin
-     *
-     * @return Response
+    /*
+     *  Show payment ledger for admin
      */
+    public function paymentLedger()
+    {
+        if(! auth()->user()->isAdmin()) {
+            abort(403);
+        }
+         return Inertia::render('Admin/Ledger/Show', [
+            'payment_history' => \App\Models\PaymentLog::orderBy('id', 'DESC')->get(),
+            'withdraw_history' => \App\Models\WithdrawLog::orderBy('id', 'DESC')->get(),
+        ]);
+    }
+
+    /*
+     *  Show payment ledger for admin
+     */
+    public function markPayment(Request $request)
+    {
+        if(! auth()->user()->isAdmin()) {
+            abort(403);
+        }
+        $findWithdrawal = \App\Models\WithdrawLog::where('id', $request->id)->first();
+        
+        $findWithdrawal->update(['status' => 'SENT', 'transaction_id' => 1]);
+
+
+         return back(303);
+    }
+
+    /**
+     * 
+     * Show all currency page for admin
+     * 
+     **/
     public function index()
     {
         if(! auth()->user()->isAdmin()) {

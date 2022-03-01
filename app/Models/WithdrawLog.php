@@ -24,6 +24,11 @@ class WithdrawLog extends Model
         'id', 'user_id', 'transaction_id', 'withdraw_address', 'currency_code', 'amount', 'usd_value', 'status', 'created_at', 'updated_at'
     ];
 
+    protected $casts = [
+        'updated_at' => "datetime:Y-m-d H:i",
+        'created_at' => "datetime:Y-m-d H:i",
+    ];
+
 
     public function user()
     {

@@ -25,7 +25,8 @@ class Currencies extends Model
     ];
 
     protected $casts = [
-        'updated_at' => "datetime:Y-m-d\TH:i",
+        'updated_at' => "datetime:Y-m-d H:i",
+        'created_at' => "datetime:Y-m-d H:i",
     ];
 
 

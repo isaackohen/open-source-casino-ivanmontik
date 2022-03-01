@@ -105,6 +105,10 @@
                                                 Admin Actions
                                             </div>
 
+                                            <jet-dropdown-link :href="route('admin.payments.show')">
+                                                Payment Ledger
+                                            </jet-dropdown-link>
+
                                             <jet-dropdown-link :href="route('currencies.show')">
                                                 Currency
                                             </jet-dropdown-link>
@@ -146,6 +150,10 @@
 
                                         <jet-dropdown-link :href="route('profile.show')">
                                             Profile
+                                        </jet-dropdown-link>
+
+                                        <jet-dropdown-link :href="route('payment.history.show')">
+                                            Payment History
                                         </jet-dropdown-link>
 
                                         <jet-dropdown-link :href="route('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
@@ -305,6 +313,7 @@
 
                         </form>
                         <div class="mt-1 mb-3" v-if="$page.props.user.currentCurrency === balance.currency_code">
+                       <jet-secondary-button class="ml-2" @click="withdrawRequestRoute()">Withdraw</jet-secondary-button>
                        <jet-secondary-button class="ml-2" v-if="!copied" @click="copyClipboard('#copy-clipboard-wallet')">Copy</jet-secondary-button>
                         <jet-secondary-button class="ml-2" v-if="copied">Copied</jet-secondary-button> 
                     </div>
@@ -448,6 +457,10 @@
             paymentHistoryRoute() {
                 this.wallet = null;
                 this.$inertia.get(route('payment.history.show'));
+            },
+            withdrawRequestRoute() {
+                this.wallet = null;
+                this.$inertia.get(route('withdrawRequest.show'));
             },
             loginRoute() {
                 this.$inertia.get(route('login'));

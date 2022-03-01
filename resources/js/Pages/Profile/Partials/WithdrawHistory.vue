@@ -20,16 +20,19 @@
                         <div>
                             {{ withdraw.currency_code }} 
                             <small class="ml-1 text-xs text-gray-400">
-                                ±{{ withdraw.usd_value }}$ at time of withdraw request
+                                ±{{ withdraw.usd_value }}$ - <u>{{ withdraw.created_at }}</u>
                             </small>
                         <br>
-                        <span class="text-xs text-gray-500">{{ withdraw.status }} </span>
+                        <span class="text-xs text-gray-500">{{ withdraw.status }} to <u>{{ withdraw.withdraw_address }}</u></span>
+                        <span class="text-xs text-gray-500" v-if="$page.props.user.super === '1'"><br>User @{{ withdraw.user_id }}<br></span>
+                        <jet-button class="text-xss ml-1 mt-2" v-if="$page.props.user.super === '1' && withdraw.transaction_id === '0'" @click="markAccepted(withdraw)">Mark Accepted</jet-button>
                         </div>
 
                         <div class="flex items-center text-md text-green-500">
                                 +{{ withdraw.amount }} {{ withdraw.currency_code }}
+
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </template>
     </jet-action-section> 
@@ -73,6 +76,15 @@
             JetLabel,
             JetSecondaryButton,
             JetSectionBorder,
+        },
+        methods: {
+            markAccepted(payment) {
+                this.$inertia.put(route('admin.markpayment'), {
+                    id: payment
+                }, {
+                    preserveState: false
+                })
+            },            
         },
     })
 </script>

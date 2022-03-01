@@ -27,7 +27,10 @@ class PaymentLog extends Model
     protected $hidden = [
         'callback_log',
     ];
-
+    protected $casts = [
+        'updated_at' => "datetime:Y-m-d H:i",
+        'created_at' => "datetime:Y-m-d H:i",
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
